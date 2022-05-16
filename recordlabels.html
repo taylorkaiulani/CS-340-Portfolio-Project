@@ -1,0 +1,95 @@
+<html>
+<head>
+    <title>Record Labels</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h1>Record Labels</h1>
+
+<nav>
+    <a href="concerts.html"> Concerts </a>
+    <a href="artists.html"> Artists </a>
+    <a href="concert_artists.html"> Artist Performances </a>
+    <a href="venues.html"> Venues </a>
+    <a> Record Labels </a>
+    <a href="ticketholders.html"> Ticketholders </a>
+    <a href="tickets.html"> Tickets </a>
+</nav>
+
+<br />
+
+<div class="read">
+<table>
+  <thead>
+    <tr>
+        <th>ID</th>
+        <th>Record Label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td> 1 </td>
+        <td> Foreign Family Collective </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 2 </td>
+        <td> Geffen Records </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 3 </td>
+        <td> Kidinakorner </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 4 </td>
+        <td> Interscope Records </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<br />
+
+<div class="create">
+    <form method="POST" id="addRecordLabel">
+        <legend><strong>Add New Record Label</strong></legend>
+        <fieldset>
+            <label for="name"> Name: </label>
+                <input type="text" id="name" name="name" required>
+        </fieldset>
+        <button type="submit"> Submit </button>
+        <button> Cancel </button>
+	</form>
+</div>
+
+<br />
+
+<div class="update">
+    <form method="POST" id="updateRecordLabel">
+        <legend><strong>Update Record Label Information</strong></legend>
+          <fieldset>
+            <input type="hidden" name="recordLabelID" id="updateRecordLabelID" value="1">
+            <label for="id"> ID: </label>
+            <label for="recordlabel"> Record Label: </label>
+            <input type="text" id="recordlabel" name="recordlabel" required>
+                    <option value="0">&nbsp;</option>
+                    <option value="1" selected> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                    <option value="4"> 4 </option>
+                </select>
+                <label> Record Label: </label>
+                    <input type="text" name="recordlabel" value="Foreign Family Collective" required>
+          </fieldset>
+        <button type="submit"> Save Changes </button>
+        <button> Cancel </button>
+	</form>
+</div>
+
+
+</body>
+</html>

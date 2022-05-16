@@ -1,0 +1,130 @@
+<html>
+<head>
+    <title>Venues</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h1>Venues</h1>
+
+<nav>
+    <a href="concerts.html"> Concerts </a>
+    <a href="artists.html"> Artists </a>
+    <a href="concert_artists.html"> Artist Performances </a>
+    <a> Venues </a>
+    <a href="recordlabels.html"> Record Labels </a>
+    <a href="ticketholders.html"> Ticketholders </a>
+    <a href="tickets.html"> Tickets </a>
+</nav>
+
+<br />
+
+<div class="read">
+<table>
+  <thead>
+    <tr>
+        <th>ID</th>
+        <th>Venue</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Capacity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td> 1 </td>
+        <td> Red Rocks </td>
+        <td> 18300 W Alameda Pkwy </td>
+        <td> Morrison </td>
+        <td> CO </td>
+        <td> 9545 </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 2 </td>
+        <td> Ryman Auditorium </td>
+        <td> 116 5th Ave N </td>
+        <td> Nashville </td>
+        <td> TN </td>
+        <td> 2362 </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 3 </td>
+        <td> Stubbs </td>
+        <td> 801 Red River Street </td>
+        <td> Austin </td>
+        <td> TX </td>
+        <td> 2100 </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 4 </td>
+        <td> 930 Club </td>
+        <td> 815 V St NW </td>
+        <td> Washington </td>
+        <td> DC </td>
+        <td> 27500 </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<br />
+
+<div class="create">
+    <form method="POST" id="addVenue">
+        <legend><strong>Add New Venue</strong></legend>
+        <fieldset>
+            <label for="venue"> Venue: </label>
+                <input type="text" id="venue" name="venue" required>
+            <label for="address"> Street Address: </label>
+                <input type="text" id="address" name="address" required>
+            <label for="city"> City: </label>
+                <input type="text" id="city" name="city" required>
+            <label for="state"> State: </label>
+                <input type="text" id="state" name="state" maxlength="2" required>
+            <label for="capacity"> Capacity: </label>
+                <input type="number" id="capacity" name="capacity" required>
+        </fieldset>
+        <button type="submit"> Submit </button>
+        <button> Cancel </button>
+	</form>
+</div>
+
+<br />
+
+<div class="update">
+    <form method="POST" id="updateVenue">
+        <legend><strong>Update Venue Information</strong></legend>
+          <fieldset>
+            <input type="hidden" name="venueID" id="updateVenueID" value="1">
+            <label for="id"> ID: </label>
+                <select name="id" id="id">
+                    <option value="0">&nbsp;</option>
+                    <option value="1" selected> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                    <option value="4"> 4 </option>
+                </select>
+            <label for="venue"> Venue: </label>
+                <input type="text" id="venue" name="venue" value="Red Rocks" required>
+            <label for="address"> Street Address: </label>
+                <input type="text" id="address" name="address" value="18300 W Alameda Pkwy" required>
+            <label for="city"> City: </label>
+                <input type="text" id="city" name="city" value="Morrison" required>
+            <label for="state"> State: </label>
+                <input type="text" id="state" name="state" maxlength="2" value="CO" required>
+            <label for="capacity"> Capacity: </label>
+                <input type="number" id="capacity" name="capacity" value="9545" required>
+          </fieldset>
+        <button type="submit"> Save Changes </button>
+        <button> Cancel </button>
+	</form>
+</div>
+
+
+</body>
+</html>

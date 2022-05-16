@@ -1,0 +1,123 @@
+<html>
+<head>
+    <title>Ticketholders</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h1>Ticketholders</h1>
+
+<nav>
+    <a href="concerts.html"> Concerts </a>
+    <a href="artists.html"> Artists </a>
+    <a href="concert_artists.html"> Artist Performances </a>
+    <a href="venues.html"> Venues </a>
+    <a href="recordlabels.html"> Record Labels </a>
+    <a> Ticketholders </a>
+    <a href="tickets.html"> Tickets </a>
+</nav>
+
+<br />
+
+<div class="read">
+<table>
+  <thead>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td> 1 </td>
+        <td> Kyle </td>
+        <td> Smith </td>
+        <td> ksmith@gmail.com </td>
+        <td> 454-333-6795 </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 2 </td>
+        <td> Cara </td>
+        <td> Whenske </td>
+        <td> cwhenske@comcast.net </td>
+        <td> 678-439-8899 </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 3 </td>
+        <td> Timothy </td>
+        <td> Rosale </td>
+        <td> timrosale@outlook.com </td>
+        <td> 243-444-9807 </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 4 </td>
+        <td> Jennifer </td>
+        <td> Watkins </td>
+        <td> jenwatkins@gmail.com </td>
+        <td> 213-762-9850 </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<br />
+
+<div class="create">
+    <form method="POST" id="addTicketholder">
+        <legend><strong>Add New Ticketholder</strong></legend>
+        <fieldset>
+            <label for="fname"> First Name: </label> 
+                <input type="text" id="fname" name="fname" required>
+            <label for="lname"> Last Name: </label> 
+                <input type="text" id="lname" name="lname" required>
+            <label for="email"> Email: </label> 
+                <input type="email" id="email" name="email" required>
+            <label for="phone"> Phone Number: </label> 
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    required>
+        </fieldset>
+        <button type="submit"> Submit </button>
+        <button> Cancel </button>
+	</form> 
+</div>
+
+<br />
+
+<div class="update">
+    <form method="POST" id="updateTicketholder">
+        <legend><strong>Update Ticketholder Information</strong></legend>
+          <fieldset>
+            <input type="hidden" name="ticketholderID" id="updateTicketholderID" value="1">
+            <label for="id"> ID: </label>
+                <select name="id" id="id">
+                    <option value="0">&nbsp;</option>
+                    <option value="1" selected> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                    <option value="4"> 4 </option>
+                </select>
+            <label for="fname"> First Name: </label> 
+                <input type="text" id="fname" name="fname" value="Kyle" required>
+            <label for="lname"> Last Name: </label> 
+                <input type="text" id="lname" name="lname" value="Smith" required>
+            <label for="email"> Email: </label> 
+                <input type="email" id="email" name="email" value="ksmith@gmail.com" required>
+            <label for="phone"> Phone Number: </label> 
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+                    value="454-333-6795" required>
+          </fieldset>
+        <button type="submit"> Save Changes </button>
+        <button> Cancel </button>
+	</form> 
+</div>
+
+
+</body>
+</html>

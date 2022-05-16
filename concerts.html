@@ -1,0 +1,138 @@
+<html>
+<head>
+    <title>Concerts</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h1>Concerts</h1>
+
+<nav>
+    <a> Concerts </a>
+    <a href="artists.html"> Artists </a>
+    <a href="concert_artists.html"> Artist Performances </a>
+    <a href="venues.html"> Venues </a>
+    <a href="recordlabels.html"> Record Labels </a>
+    <a href="ticketholders.html"> Ticketholders </a>
+    <a href="tickets.html"> Tickets </a>
+</nav>
+
+<br />
+
+<div class="read">
+<table>
+  <thead>
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Venue</th>
+        <th>Artist</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td> 1 </td>
+        <td> 4/8/2023 </td>
+        <td> Stubbs </td>
+        <td> Imagine Dragons </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 2 </td>
+        <td> 5/10/2023 </td>
+        <td> Ryman Auditorium </td>
+        <td> Olivia Rodrigo </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 3 </td>
+        <td> 6/24/2023 </td>
+        <td> 930 Club </td>
+        <td> ODESZA </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 4 </td>
+        <td> 7/14/2023 </td>
+        <td> Red Rocks </td>
+        <td> Imagine Dragons </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<br />
+
+<div class="search">
+    <form method="POST" id="searchConcert">
+        <legend><strong>Search Concerts</strong></legend>
+        <fieldset>
+            <label for="date"> Date: </label>
+                <input type="date" id="date" name="date">
+            <label for="Venue"> Venue: </label>
+                <input type="text" id="venue" name="venue">
+	          <label for="Artist"> Artist: </label>
+                <input type="text" id="artist" name="artist">
+        </fieldset>
+        <button type="submit"> Submit </button>
+        <button> Cancel </button>
+	</form>
+</div>
+
+<br />
+
+<div class="create">
+    <form method="POST" id="addConcert">
+        <legend><strong>Add New Concert</strong></legend>
+        <fieldset>
+            <label for="date"> Date: </label>
+                <input type="date" id="date" name="date" required>
+            <label for="venue"> Venue: </label>
+                <select id="venue" name="venue" required>
+            	    <option value="0">&nbsp;</option>
+                    <option value="1"> Red Rocks </option>
+                    <option value="2"> Ryman Auditorium </option>
+                    <option value="3"> Stubbs </option>
+                    <option value="4"> 930 Club </option>
+                </select>
+        </fieldset>
+        <button type="submit"> Submit </button>
+        <button> Cancel </button>
+	</form>
+</div>
+
+<br />
+
+<div class="update">
+    <form method="POST" id="updateConcert">
+        <legend><strong>Update Concert Information</strong></legend>
+          <fieldset>
+            <input type="hidden" name="concertID" id="updateConcertID" value="1">
+            <label for="id"> ID: </label>
+                <select name="id" id="id" required>
+                    <option value="0">&nbsp;</option>
+                    <option value="1" selected> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                    <option value="4"> 4 </option>
+                </select>
+            <label> Date: </label>
+                <input type="date" name="date" value='2023-04-08' required>
+            <label for="venue"> Venue: </label>
+                <select id="venue" name="venue" required>
+                    <option value="0">&nbsp;</option>
+                    <option value="1"> Red Rocks </option>
+                    <option value="2"> Ryman Auditorium </option>
+                    <option value="3" selected> Stubbs </option>
+                    <option value="4"> 930 Club </option>
+                </select>
+          </fieldset>
+        <button type="submit"> Save Changes </button>
+        <button> Cancel </button>
+	</form>
+</div>
+
+
+</body>
+</html>

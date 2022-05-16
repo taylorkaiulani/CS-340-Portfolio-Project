@@ -1,0 +1,128 @@
+<html>
+<head>
+    <title>Artist Performances</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h1>Artist Performances</h1>
+
+<nav>
+    <a href="concerts.html"> Concerts </a>
+    <a href="artists.html"> Artists </a>
+    <a> Artist Performances </a>
+    <a href="venues.html"> Venues </a>
+    <a href="recordlabels.html"> Record Labels </a>
+    <a href="ticketholders.html"> Ticketholders </a>
+    <a href="tickets.html"> Tickets </a>
+</nav>
+
+<br />
+
+<div class="read">
+<table>
+  <thead>
+    <tr>
+        <th>ID</th>
+        <th>Artist</th>
+        <th>Venue</th>
+        <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td> 1 </td>
+        <td> Imagine Dragons </td>
+        <td> Stubbs </td>
+        <td> 4/8/2023 </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 2 </td>
+        <td> Olivia Rodrigo </td>
+        <td> Ryman Auditorium </td>
+        <td> 5/10/2023 </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 3 </td>
+        <td> ODESZA </td>
+        <td> 930 Club </td>
+        <td> 6/24/2023 </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 4 </td>
+        <td> Imagine Dragons </td>
+        <td> Red Rocks </td>
+        <td> 7/14/2023 </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<br />
+
+<div class="create">
+    <form method="POST" id="addConcertArtist">
+        <legend><strong>Add New Artist Performance</strong></legend>
+        <fieldset>
+            <label for="artistName"> Artist Name: </label>
+                <select name="artistName" id="artistName">
+                    <option value="1">Billie Eilish</option>
+                    <option value="2">Olivia Rodrigo</option>
+                    <option value="3">Imagine Dragons</option>
+                    <option value="4">ODESZA</option>
+                </select>
+            <label for="concertID"> Concert: </label>
+                <select name="concertID" id="concertID">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+        </fieldset>
+        <button type="submit"> Submit </button>
+        <button> Cancel </button>
+	</form>
+</div>
+
+<br />
+
+<div class="update">
+    <form method="POST" id="updateConcertArtist">
+        <legend><strong>Update Artist Performance Information</strong></legend>
+          <fieldset>
+            <input type="hidden" name="concertArtistID" id="updateConcertArtistID" value="1">
+            <label for="id"> ID: </label>
+                <select name="id" id="id">
+                    <option value="0">&nbsp;</option>
+                    <option value="1" selected> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                    <option value="4"> 4 </option>
+                </select>
+            <label for="artistName"> Artist Name: </label>
+                <select name="artistName" id="artistName">
+                    <option value="1">Billie Eilish</option>
+                    <option value="2">Olivia Rodrigo</option>
+                    <option value="3" selected>Imagine Dragons</option>
+                    <option value="4">ODESZA</option>
+                </select>
+            <label for="concertID"> Concert: </label>
+                <select name="concertID" id="concertID">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+          </fieldset>
+        <button type="submit"> Save Changes </button>
+        <button> Cancel </button>
+	</form>
+</div>
+
+
+</body>
+</html>

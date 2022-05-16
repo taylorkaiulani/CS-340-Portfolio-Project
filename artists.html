@@ -1,0 +1,116 @@
+<html>
+<head>
+    <title>Artists</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h1>Artists</h1>
+
+<nav>
+    <a href="concerts.html"> Concerts </a>
+    <a> Artists </a>
+    <a href="concert_artists.html"> Artist Performances </a>
+    <a href="venues.html"> Venues </a>
+    <a href="recordlabels.html"> Record Labels </a>
+    <a href="ticketholders.html"> Ticketholders </a>
+    <a href="tickets.html"> Tickets </a>
+</nav>
+
+<br />
+
+<div class="read">
+<table>
+  <thead>
+    <tr>
+        <th>ID</th>
+        <th>Artist</th>
+        <th>Record Label</th>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td> 1 </td>
+        <td> Billie Eilish </td>
+        <td> Interscope Records </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 2 </td>
+        <td> Olivia Rodrigo </td>
+        <td> Geffen Records </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 3 </td>
+        <td> Imagine Dragons </td>
+        <td> Kidinakorner </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 4 </td>
+        <td> ODESZA </td>
+        <td> NULL </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<br />
+
+<div class="create">
+    <form method="POST" id="addArtist">
+        <legend><strong>Add New Artist</strong></legend>
+        <fieldset>
+          <label for="artist"> Artist: </label>
+          <input type="text" id="artist" name="artist" required>
+            <label for="record label"> Record Label: </label>
+                <select id="record label" name="record label" required>
+            	    <option value="0"> NULL </option>
+                    <option value="1"> Foreign Family Collective </option>
+                    <option value="2"> Geffen Records </option>
+                    <option value="3"> Kidinakorner </option>
+                    <option value="4"> Interscope Records </option>
+                </select>
+        </fieldset>
+        <button type="submit"> Submit </button>
+        <button> Cancel </button>
+	</form>
+</div>
+
+<br />
+
+<div class="update">
+    <form method="POST" id="updateArtist">
+        <legend><strong>Update Artist Information</strong></legend>
+          <fieldset>
+            <input type="hidden" name="artistID" id="updateArtistID" value="1">
+            <label for="id"> ID: </label>
+                <select name="id" id="id" required>
+                    <option value="0">&nbsp;</option>
+                    <option value="1" selected> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                    <option value="4"> 4 </option>
+                </select>
+                <label> Artist: </label>
+                    <input type="text" name="artist" value="Billie Eilish" required>
+            <label for="record label"> Record Label: </label>
+                <select id="record label" name="record label" required>
+                    <option value="0"> NULL </option>
+                    <option value="1"> Foreign Family Collective </option>
+                    <option value="2"> Geffen Records </option>
+                    <option value="3"> Kidinakorner </option>
+                    <option value="4" selected> Interscope Records </option>
+                </select>
+          </fieldset>
+        <button type="submit"> Save Changes </button>
+        <button> Cancel </button>
+	</form>
+</div>
+
+
+</body>
+</html>

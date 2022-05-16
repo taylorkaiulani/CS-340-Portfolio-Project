@@ -1,0 +1,133 @@
+<html>
+<head>
+    <title>Tickets</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h1>Tickets</h1>
+
+<nav>
+    <a href="concerts.html"> Concerts </a>
+    <a href="artists.html"> Artists </a>
+    <a href="concert_artists.html"> Artist Performances </a>
+    <a href="venues.html"> Venues </a>
+    <a href="recordlabels.html"> Record Labels </a>
+    <a href="ticketholders.html"> Ticketholders </a>
+    <a> Tickets </a>
+</nav>
+
+<br />
+
+<div class="read">
+<table>
+  <thead>
+    <tr>
+        <th>ID</th>
+        <th>Ticketholder Email</th>
+        <th>Venue</th>
+        <th>Date</th>
+        <th>Scanned?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td> 1 </td>
+        <td> ksmith@gmail.com </td>
+        <td> Red Rocks </td>
+        <td> 7/14/2023 </td>
+        <td> No </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 2 </td>
+        <td> jenwatkins@gmail.com </td>
+        <td> Ryman Auditorium </td>
+        <td> 5/10/2023 </td>
+        <td> No </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 3 </td>
+        <td> jenwatkins@gmail.com </td>
+        <td> 930 Club </td>
+        <td> 6/24/2023 </td>
+        <td> No </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+    <tr>
+        <td> 4 </td>
+        <td> cwhenske@comcast.net </td>
+        <td> Stubbs </td>
+        <td> 4/8/2023 </td>
+        <td> No </td>
+        <td><a href="#"> Delete </a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<br />
+
+<div class="create">
+    <form method="POST" id="addTicket">
+        <legend><strong>Add New Ticket</strong></legend>
+        <fieldset>
+            <label for="email"> Ticketholder Email: </label> 
+                <select name="email" id="email">
+                    <option value="1">ksmith@gmail.com</option>
+                    <option value="2">cwhenske@comcast.net</option>
+                    <option value="3">timrosale@outlook.com</option>
+                    <option value="4">jenwatkins@gmail.com</option>
+                </select>
+            <label for="concertID"> Concert: </label> 
+                <select name="concertID" id="concertID">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+        </fieldset>
+        <button type="submit"> Submit </button>
+        <button> Cancel </button>
+	</form> 
+</div>
+
+<br />
+
+<div class="update">
+    <form method="POST" id="updateTicket">
+        <legend><strong>Update Ticket Information</strong></legend>
+          <fieldset>
+            <input type="hidden" name="ticketID" id="updateTicketID" value="1">
+            <label for="id"> ID: </label>
+                <select name="id" id="id">
+                    <option value="0">&nbsp;</option>
+                    <option value="1" selected> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                    <option value="4"> 4 </option>
+                </select>
+            <label for="email"> Ticketholder Email: </label> 
+                <select name="email" id="email">
+                    <option value="1" selected>ksmith@gmail.com</option>
+                    <option value="2">cwhenske@comcast.net</option>
+                    <option value="3">timrosale@outlook.com</option>
+                    <option value="4">jenwatkins@gmail.com</option>
+                </select>
+            <label for="concertID"> Concert: </label> 
+                <select name="concertID" id="concertID">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4" selected>4</option>
+                </select>
+          </fieldset>
+        <button type="submit"> Save Changes </button>
+        <button> Cancel </button>
+	</form> 
+</div>
+
+
+</body>
+</html>
