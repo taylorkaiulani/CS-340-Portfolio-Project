@@ -1,16 +1,11 @@
 from flask import Flask, render_template, json, redirect, request
 from flask_mysqldb import MySQL
+import database.db_connector as db
 import os
 
 # Configuration
 app = Flask(__name__)
-
-app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-app.config['MYSQL_USER'] = 'cs340_homant'
-app.config['MYSQL_PASSWORD'] = '5093'
-app.config['MYSQL_DB'] = 'cs340_homant'
-app.config['MYSQL_CURSORCLASS'] = "DictCursor"
-
+db_connection = db.connect_to_database()
 mysql = MySQL(app)
 
 # Routes 
