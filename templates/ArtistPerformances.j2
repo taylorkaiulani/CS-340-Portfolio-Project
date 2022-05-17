@@ -1,0 +1,144 @@
+<html>
+
+<head>
+	<title>Artist Performances</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<script language="JavaScript">
+	function showform(dowhat) {
+		/*
+		 * four DIVS: browse, insert, update, delete
+		 * this function sets one visible the others not
+		 */
+		if(dowhat == 'insert') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'block';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
+		} else if(dowhat == 'update') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'block';
+			document.getElementById('delete').style.display = 'none';
+		} else if(dowhat == 'delete') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'block';
+		} else if(dowhat == 'all') {
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'block';
+			document.getElementById('edit').style.display = 'block';
+			document.getElementById('delete').style.display = 'block';
+		} else { //by default display browse
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
+		}
+	}
+
+	function newArtistPerformances() {
+		showform('insert');
+	}
+
+	function updateArtistPerformances(pid) {
+		showform('update');
+	}
+
+	function deleteArtistPerformances(pid) {
+		showform('delete');
+	}
+
+	function browseArtistPerformances() {
+		showform('browse');
+	}
+
+	function showAll() {
+		showform('all');
+	}
+	</script>
+</head>
+
+<body onload="browseArtistPerformances()">
+	<h1>Artist Performances</h1>
+	<nav>
+    <a href="concerts.html"> Concerts </a>
+    <a href="artists.html"> Artists </a>
+    <a> Artist Performances </a>
+    <a href="venues.html"> Venues </a>
+    <a href="recordlabels.html"> Record Labels </a>
+    <a href="ticketholders.html"> Ticketholders </a>
+    <a href="tickets.html"> Tickets </a>
+	</nav>
+	<div id="browse">
+		<p><a href="#" onClick="newArtistPerformances()">Add New</a> </p>
+		<table border="1" cellpadding="5">
+            <!-- Access data tuple passed from app.py -->
+            {% if data %}
+			    <thead>
+				    <tr>
+					    <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+					    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+
+                        <!-- End of this for loop -->
+                        {% endfor %}
+                    </tr>
+
+				<tbody>
+					<!-- Now, iterate through every item in data -->{% for item in data %}
+					    <tr>
+						    <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+
+						    <!-- Create a <td> element with the value of that key in it -->
+						    <td> {{item[key]}} </td>
+                            {% endfor %}
+
+                            <!-- Create our edit/delete buttons -->
+						    <td><a href="edit_ArtistPerformances/{{item.id}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete_ArtistPerformances/{{item.id}}" class="btn btn-default">Delete</a></td>
+
+					    </tr>
+                        {% endfor %}
+                {% endif %}
+        </table>
+	<p>&nbsp;</p>
+	</div>	<!-- browse -->
+
+	<div id="insert">
+		<!-- form to INSERT new data-->
+		<form id="insertArtistPerformances" action="/ArtistPerformances" method="post">
+			<legend><strong>Add Artist Performances</strong></legend>
+			<fieldset>
+                <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+				<label for="artistID">ID:</label>
+				<input type="text" class="form-control" id="artistID" name="artistID"
+				pattern="[A-Za-z]{1,}" placeholder="" required>
+
+				<label for="artist">Artist:</label>
+				<input type="text" class="form-control" id="artist" name="artist"
+				pattern="[A-Za-z0-9]{1,}" placeholder="" required>
+
+				<label for="concert">Concert:</label>
+				<select class="form-control" id="concert" name="concert"
+				pattern="[0-4]{1}" placeholder="" required>
+					<option value="0">&nbsp;</option>
+					<option value="1">4/8/2023 Stubbs</option>
+					<option value="2">5/10/2023 Ryman Auditorium</option>
+					<option value="3">6/24/2023 930 Club</option>
+					<option value="4">7/14/2023 Red Rocks</option>
+				</select>
+
+      </fieldset>
+
+            <!-- Create 'Add' and 'Cancel' buttons -->
+			<input type="submit" value="Add ArtistPerformances" name="Add_ArtistPerformances"
+			class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseArtistPerformances()">
+        </form>
+	</div><!--insert-->
+</body>
+</html>
