@@ -31,7 +31,7 @@ def root():
 
     return results
 
-@app.route('/artist-performances', methods = ['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/artist-performances', methods = ['GET', 'POST'])
 def concert_artists():
     if request.method == 'GET':
         pass
@@ -39,11 +39,53 @@ def concert_artists():
     elif request.method == 'POST':
         pass
 
-    elif request.method == 'PUT':
-        pass
+@app.route('/edit-performance/<int:id>', methods = ['GET', 'POST'])
+def edit_concert_artists(id):
+    if request.method == 'GET':
+        # Get performance info to display
+        query1 = "SELECT artistID AS `Artist`, concertID AS `Performance` FROM Concert_Artists WHERE concert_artistID = '%s';" % (id)
+        cursor = mysql.connection.cursor()
+        cursor.execute(query)
+        data = cursor.fetchall()
+
+        # Get artist info for drop down
+        query2 = "SELECT artistID, name FROM Artists"
+        cursor = mysql.connection.cursor()
+        cursor.execute(query)
+        artists = cursor.fetchall()
+
+        # Get concert info for drop down
+        query3 = "SELECT Concerts.concertID AS `concertID`, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID;"
+        cursor = mysql.connection.cursor()
+        cursor.execute(query)
+        concerts = cursor.fetchall()
+
+        return render_template('EditArtistPerformances.j2', data=data, artists=Artists, Concerts=concerts)
     
-    elif request.method == 'DELETE':
-        pass
+    elif request.method == 'POST':
+        # Get form inputs
+        concert_artistID = request.form['concert_artistID']
+        concertID = request.form['concertID']
+        artistID = request.form['artistID']
+
+        # Update the database
+        query = "UPDATE Concert_Artists SET concertID = '%s', artistID = '%s' WHERE concert_artistID = '%s';"
+        cursor = mysql.connection.cursor()
+        cursor.execute(query, (concertID, artistID, concert_artistID))
+        mysql.connection.commit()
+
+        return redirect('/artist-performances')
+
+
+@app.route('/delete-performance/<int:id>')
+def delete_concert_artist(id):
+    query = "DELETE FROM Concert_Artists WHERE concert_artistID = '%s';"
+    cursor = mysql.connection.cursor()
+    cursor.execute(query, (id,))
+    mysql.connection.commit()
+
+    return redirect('/artist-performances')
+
 
 # Listener
 if __name__ == "__main__":

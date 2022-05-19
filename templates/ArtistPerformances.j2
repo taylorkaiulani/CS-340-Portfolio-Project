@@ -98,8 +98,8 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="edit_ArtistPerformances/{{item.id}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_ArtistPerformances/{{item.id}}" class="btn btn-default">Delete</a></td>
+						    <td><a href="edit-performance/{{item.id}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete-performance/{{item.id}}" class="btn btn-default">Delete</a></td>
 
 					    </tr>
                         {% endfor %}
@@ -141,31 +141,5 @@
         </form>
 	</div><!--insert-->
 
-	<div id="edit">
-		<!-- form to EDIT data in Concert_Artists-->
-		<form id="editArtistPerformance" action="/artist-performances" method="put">
-			<legend><strong>Edit Performance</strong></legend>
-			<fieldset>
-			
-				<input type="hidden" value="{{data[0].concert_artistID}}" class="form-control" id="concert_artistID" name="concert_artistID" required>
-
-				<label for="artistName"> Artist: </label>
-                <select name="artist" id="artist">
-                    {% for artist in Artists %}
-					<option value="{{artist[artistID]}}"> {{artist[name]}} </option>
-					{% endfor %}
-                </select>
-
-				<label for="concert"> Concert ID: </label>
-				<select name="concert" id="concert">
-					{% for concert in Concerts %}
-					<option value="{{concert[concertID]}}> {{concert[concertID]}} </option>
-					{% endfor %}
-				</select>
-
-			</fieldset>
-				<input class="btn" type="button" value="Cancel" onClick="browsePeople()" style="margin:.5rem;"> 
-        </form>
-	</div><!--edit-->
 </body>
 </html>
