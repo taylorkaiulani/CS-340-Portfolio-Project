@@ -1,0 +1,61 @@
+<html>
+
+<head>
+	<title>Edit Performance</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />    
+</head>
+
+<body>
+    <div id="edit">
+        <!-- table to display the row being edited -->
+        <table id="currentInfo">
+            <caption> You are updating the following performance: </caption>
+            <thead>
+                <tr>
+                    {% for key in data[0].keys() %}
+                    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for key in data[0].keys() %}
+                    <td> {{data[0][key]}} </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+
+		<!-- form to edit data in Concert_Artists -->
+		<form id="editArtistPerformance" action="/artist-performances" method="put">
+			<legend><strong>Edit Performance Information</strong></legend>
+			<fieldset>
+
+				<input type="hidden" value="{{data[0].concert_artistID}}" class="form-control" id="concert_artistID" name="concert_artistID" required>
+
+				<label for="artistName"> Artist: </label>
+                <select name="artist" id="artistID">
+                    {% for artist in Artists %}
+					<option value="{{artist[artistID]}}"> {{artist[name]}} </option>
+					{% endfor %}
+                </select>
+
+				<label for="concert"> Concert ID: </label>
+				<select name="concert" id="concertID">
+					{% for concert in Concerts %}
+					<option value="{{concert[concertID]}}> {{concert[venue]}}, {{concert[date]}} </option>
+					{% endfor %}
+				</select>
+
+			</fieldset>
+				<button type="submit" />
+        </form>
+
+        <!-- form to redirect to main page if user wants to cancel -->
+        <form action='/artist-performances' method='GET'>
+            <button> Cancel </button>
+        </form>
+	</div><!--edit-->
+</body>
+
+</html>
