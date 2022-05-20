@@ -56,24 +56,24 @@ def ArtistPerformances():
 def EditArtistPerformance(id):
     if request.method == 'GET':
         # Get performance info to display
-        query1 = "SELECT artistID AS `Artist`, concertID AS `Performance` FROM Concert_Artists WHERE concert_artistID = '%s';" % (id)
-        cursor = mysql.connection.cursor()
-        cursor.execute(query)
-        data = cursor.fetchall()
+        query1 = ("SELECT Artists.name AS `Artist`, Venues.name AS `Venue`, Concerts.date AS `Date`, concert_artistID FROM Concert_Artists JOIN Concerts ON Concert_Artists.concertID = Concerts.concertID "
+        + "JOIN Venues ON Venues.venueID = Concerts.venueID "
+        + "JOIN Artists ON Concert_Artists.artistID = Artists.artistID "
+        + "WHERE concert_artistID = '%s';") % (id)
+        cur = db.execute_query(db_connection=db_connection, query=query1)
+        data = cur.fetchall()
 
         # Get artist info for drop down
         query2 = "SELECT artistID, name FROM Artists"
-        cursor = mysql.connection.cursor()
-        cursor.execute(query)
-        artists = cursor.fetchall()
+        cur = db.execute_query(db_connection=db_connection, query=query2)
+        artists = cur.fetchall()
 
         # Get concert info for drop down
-        query3 = "SELECT Concerts.concertID AS `concertID`, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID;"
-        cursor = mysql.connection.cursor()
-        cursor.execute(query)
-        concerts = cursor.fetchall()
+        query3 = "SELECT concertID, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID;"
+        cur = db.execute_query(db_connection=db_connection, query=query3)
+        concerts = cur.fetchall()
 
-        return render_template('EditArtistPerformances.j2', data=data, artists=Artists, Concerts=concerts)
+        return render_template('EditArtistPerformances.j2', data=data, Artists=artists, Concerts=concerts)
 
     elif request.method == 'POST':
         # Get form inputs
@@ -83,17 +83,15 @@ def EditArtistPerformance(id):
 
         # Update the database
         query = "UPDATE Concert_Artists SET concertID = '%s', artistID = '%s' WHERE concert_artistID = '%s';"
-        cursor = mysql.connection.cursor()
-        cursor.execute(query, (concertID, artistID, concert_artistID))
+        cur = db.execute_query(db_connection=db_connection, query=query, query_params=(concertID, artistID, concert_artistID))
         mysql.connection.commit()
 
         return redirect('/ArtistPerformances')
 
 @app.route('/DeletePerformance/<int:id>')
 def delete_concert_artist(id):
-    query = "DELETE FROM Concert_Artists WHERE concert_artistID = '%s';"
-    cursor = mysql.connection.cursor()
-    cursor.execute(query, (id,))
+    query = "DELETE FROM Concert_Artists WHERE concert_artistID = '%s';" % (id)
+    cur = db.execute_query(db_connection=db_connection, query=query)
     mysql.connection.commit()
 
     return redirect('/ArtistPerformances')

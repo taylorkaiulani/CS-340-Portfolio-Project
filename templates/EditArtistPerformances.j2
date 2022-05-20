@@ -7,48 +7,57 @@
 
 <body>
     <div id="edit">
+        <h3> You are updating the following performance: </h3>
+
+        <br/>
+
         <!-- table to display the row being edited -->
         <table id="currentInfo">
-            <caption> You are updating the following performance: </caption>
             <thead>
                 <tr>
                     {% for key in data[0].keys() %}
+                    {% if key != 'concert_artistID' %}
                     <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                    {% endif %}
                     {% endfor %}
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     {% for key in data[0].keys() %}
+                    {% if key != 'concert_artistID' %}
                     <td> {{data[0][key]}} </td>
+                    {% endif %}
                     {% endfor %}
                 </tr>
             </tbody>
         </table>
 
+        <br/>
+
 		<!-- form to edit data in Concert_Artists -->
-		<form id="editArtistPerformance" action="/EditPerformance" method="POST">
+		<form id="editArtistPerformance" action="/EditPerformance/{{data[0].concert_artistID}}" method="POST">
 			<legend><strong>Edit Performance Information</strong></legend>
 			<fieldset>
 
 				<input type="hidden" value="{{data[0].concert_artistID}}" class="form-control" id="concert_artistID" name="concert_artistID" required>
 
 				<label for="artistName"> Artist: </label>
-                <select name="artist" id="artistID">
+                <select name="artistID" id="artistID">
                     {% for artist in Artists %}
-					<option value="{{artist[artistID]}}"> {{artist[name]}} </option>
+					<option value="{{artist.artistID}}"> {{artist.name}} </option>
 					{% endfor %}
                 </select>
 
 				<label for="concert"> Concert ID: </label>
-				<select name="concert" id="concertID">
+				<select name="concertID" id="concertID">
 					{% for concert in Concerts %}
-					<option value="{{concert[concertID]}}> {{concert[venue]}}, {{concert[date]}} </option>
+					<option value="{{concert.concertID}}"> {{concert.venue}}, {{concert.date}} </option>
 					{% endfor %}
 				</select>
 
 			</fieldset>
-				<button type="submit" />
+				<button type="submit"> Submit </button>
         </form>
 
         <!-- form to redirect to main page if user wants to cancel -->
