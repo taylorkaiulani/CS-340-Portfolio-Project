@@ -20,8 +20,22 @@ def Main():
     return render_template("Home.j2")
 
 # route for ArtistPerformances page
-@app.route("/ArtistPerformances", methods=["GET"])
+@app.route("/ArtistPerformances", methods=["POST", "GET"])
 def ArtistPerformances():
+    # Separate out the request methods, in this case this is for a POST
+    # insert a person into the bsg_people entity
+    if request.method == "POST":
+        # fire off if user presses the Add Person button
+        if request.form.get("insertArtistPerformance"):
+            # grab user form inputs
+            concert = request.form["concert"]
+            artist = request.form["artist"]
+            query = "INSERT INTO Concert_Artists (concert, artist) VALUES (%s, %s)"
+            cur = db.execute_query(db_connection=db_connection, query=query)
+            mysql.connection.commit()
+
+            # redirect back to people page
+            return redirect("/ArtistPerformances")
 
     # Grab ArtistPerformances data so we send it to our template to display
     if request.method == "GET":
@@ -37,6 +51,7 @@ def ArtistPerformances():
 
         # render edit_people page passing our query data and homeworld data to the edit_people template
         return render_template("ArtistPerformances.j2", data=data, homeworlds=homeworld_data)
+
 
 # Listener
 if __name__ == "__main__":
