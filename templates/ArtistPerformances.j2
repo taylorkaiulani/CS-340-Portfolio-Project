@@ -1,7 +1,7 @@
 <html>
-
+<!-- Adapted from the people.html UI design -->
 <head>
-	<title>Artist Performances</title>
+	<h2>CONCERTS UNLIMITED</h2>
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript">
 	function showform(dowhat) {
@@ -36,42 +36,28 @@
 			document.getElementById('delete').style.display = 'none';
 		}
 	}
-
-	function newArtistPerformances() {
+	function newArtistPerformance() {
 		showform('insert');
 	}
-
-	function updateArtistPerformances(pid) {
+	function updateArtistPerformance(pid) {
 		showform('update');
 	}
-
-	function deleteArtistPerformances(pid) {
+	function deleteArtistPerformance(pid) {
 		showform('delete');
 	}
-
-	function browseArtistPerformances() {
+	function browseArtistPerformance() {
 		showform('browse');
 	}
-
 	function showAll() {
 		showform('all');
 	}
 	</script>
 </head>
 
-<body onload="browseArtistPerformances()">
-	<h1>Artist Performances</h1>
-	<nav>
-    <a href="concerts.html"> Concerts </a>
-    <a href="artists.html"> Artists </a>
-    <a> Artist Performances </a>
-    <a href="venues.html"> Venues </a>
-    <a href="recordlabels.html"> Record Labels </a>
-    <a href="ticketholders.html"> Ticketholders </a>
-    <a href="tickets.html"> Tickets </a>
-	</nav>
+<body onload="browseArtistPerformance()">
+		<h3>Artist Performances</h3> [ <a href="Home">Home</a> | Concerts | Artists | Artist Performances | Venues | Record Labels | Ticketholders | Tickets ]
 	<div id="browse">
-		<p><a href="#" onClick="newArtistPerformances()">Add New</a> </p>
+		<p><a href="#" onClick="newArtistPerformance()">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py -->
             {% if data %}
@@ -98,8 +84,8 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="edit-performance/{{item.id}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete-performance/{{item.id}}" class="btn btn-default">Delete</a></td>
+						    <td><a href="edit_ArtistPerformances/{{item.id}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete_ArtistPerformances/{{item.id}}" class="btn btn-default">Delete</a></td>
 
 					    </tr>
                         {% endfor %}
@@ -108,38 +94,7 @@
 	<p>&nbsp;</p>
 	</div>	<!-- browse -->
 
-	<div id="insert">
-		<!-- form to INSERT new data-->
-		<form id="insertArtistPerformances" action="/ArtistPerformances" method="post">
-			<legend><strong>Add Artist Performances</strong></legend>
-			<fieldset>
-                <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
-				<label for="artistID">ID:</label>
-				<input type="text" class="form-control" id="artistID" name="artistID"
-				pattern="[A-Za-z]{1,}" placeholder="" required>
 
-				<label for="artist">Artist:</label>
-				<input type="text" class="form-control" id="artist" name="artist"
-				pattern="[A-Za-z0-9]{1,}" placeholder="" required>
-
-				<label for="concert">Concert:</label>
-				<select class="form-control" id="concert" name="concert"
-				pattern="[0-4]{1}" placeholder="" required>
-					<option value="0">&nbsp;</option>
-					<option value="1">4/8/2023 Stubbs</option>
-					<option value="2">5/10/2023 Ryman Auditorium</option>
-					<option value="3">6/24/2023 930 Club</option>
-					<option value="4">7/14/2023 Red Rocks</option>
-				</select>
-
-      </fieldset>
-
-            <!-- Create 'Add' and 'Cancel' buttons -->
-			<input type="submit" value="Add ArtistPerformances" name="Add_ArtistPerformances"
-			class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseArtistPerformances()">
-        </form>
-	</div><!--insert-->
 
 </body>
 </html>
