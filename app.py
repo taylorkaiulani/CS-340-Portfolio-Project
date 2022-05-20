@@ -52,7 +52,52 @@ def ArtistPerformances():
         # render edit_people page passing our query data and homeworld data to the edit_people template
         return render_template("ArtistPerformances.j2", data=data, homeworlds=homeworld_data)
 
+@app.route('/EditPerformance/<int:id>', methods = ['GET', 'POST'])
+def EditArtistPerformance(id):
+    if request.method == 'GET':
+        # Get performance info to display
+        query1 = "SELECT artistID AS `Artist`, concertID AS `Performance` FROM Concert_Artists WHERE concert_artistID = '%s';" % (id)
+        cursor = mysql.connection.cursor()
+        cursor.execute(query)
+        data = cursor.fetchall()
+
+        # Get artist info for drop down
+        query2 = "SELECT artistID, name FROM Artists"
+        cursor = mysql.connection.cursor()
+        cursor.execute(query)
+        artists = cursor.fetchall()
+
+        # Get concert info for drop down
+        query3 = "SELECT Concerts.concertID AS `concertID`, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID;"
+        cursor = mysql.connection.cursor()
+        cursor.execute(query)
+        concerts = cursor.fetchall()
+
+        return render_template('EditArtistPerformances.j2', data=data, artists=Artists, Concerts=concerts)
+
+    elif request.method == 'POST':
+        # Get form inputs
+        concert_artistID = request.form['concert_artistID']
+        concertID = request.form['concertID']
+        artistID = request.form['artistID']
+
+        # Update the database
+        query = "UPDATE Concert_Artists SET concertID = '%s', artistID = '%s' WHERE concert_artistID = '%s';"
+        cursor = mysql.connection.cursor()
+        cursor.execute(query, (concertID, artistID, concert_artistID))
+        mysql.connection.commit()
+
+        return redirect('/ArtistPerformances')
+
+@app.route('/DeletePerformance/<int:id>')
+def delete_concert_artist(id):
+    query = "DELETE FROM Concert_Artists WHERE concert_artistID = '%s';"
+    cursor = mysql.connection.cursor()
+    cursor.execute(query, (id,))
+    mysql.connection.commit()
+
+    return redirect('/ArtistPerformances')
 
 # Listener
 if __name__ == "__main__":
-    app.run(port=31669, debug=True)
+    app.run(port=2896, debug=True)

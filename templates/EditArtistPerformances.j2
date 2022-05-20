@@ -27,7 +27,7 @@
         </table>
 
 		<!-- form to edit data in Concert_Artists -->
-		<form id="editArtistPerformance" action="/artist-performances" method="put">
+		<form id="editArtistPerformance" action="/EditPerformance" method="POST">
 			<legend><strong>Edit Performance Information</strong></legend>
 			<fieldset>
 
@@ -52,7 +52,7 @@
         </form>
 
         <!-- form to redirect to main page if user wants to cancel -->
-        <form action='/artist-performances' method='GET'>
+        <form action='/ArtistPerformances' method='GET'>
             <button> Cancel </button>
         </form>
 	</div><!--edit-->
