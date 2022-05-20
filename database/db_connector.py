@@ -1,5 +1,4 @@
 import MySQLdb
-import mariadb
 import os
 from dotenv import load_dotenv, find_dotenv
 
@@ -14,7 +13,7 @@ def connect_to_database(host = host, user = user, passwd = passwd, db = db):
     '''
     connects to a database and returns a database objects
     '''
-    db_connection = mariadb.connect(host,user,passwd,db)
+    db_connection = MySQLdb.connect(host,user,passwd,db)
     return db_connection
 
 def execute_query(db_connection = None, query = None, query_params = ()):
@@ -36,7 +35,7 @@ def execute_query(db_connection = None, query = None, query_params = ()):
 
     print("Executing %s with %s" % (query, query_params));
     # Create a cursor to execute query. Why? Because apparently they optimize execution by retaining a reference according to PEP0249
-    cursor = db_connection.cursor()
+    cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
 
     '''
     params = tuple()
@@ -44,11 +43,9 @@ def execute_query(db_connection = None, query = None, query_params = ()):
     for q in query_params:
         params = params + (q)
     '''
-    #TODO: Sanitize the query before executing it!!!
+
     cursor.execute(query, query_params)
     # this will actually commit any changes to the database. without this no
     # changes will be committed!
     db_connection.commit();
     return cursor
-
-
