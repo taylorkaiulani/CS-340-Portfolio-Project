@@ -1,93 +1,43 @@
 from flask import Flask, render_template, json, redirect, request
 from flask_mysqldb import MySQL
+import database.db_connector as db
 import os
-from dotenv import load_dotenv, find_dotenv
-# import database.db_connector as db
 
 # Configuration
 app = Flask(__name__)
-
-load_dotenv(find_dotenv())
-
-# db_connection = db.connect_to_database()
-
-app.config['MYSQL_HOST'] = os.environ.get("340DBHOST")
-app.config['MYSQL_USER'] = os.environ.get("340DBUSER")
-app.config['MYSQL_PASSWORD'] = os.environ.get("340DBPW")
-app.config['MYSQL_DB'] = os.environ.get("340DB")
-app.config['MYSQL_CURSORCLASS'] = "DictCursor"
-
+db_connection = db.connect_to_database()
 mysql = MySQL(app)
+# db_connection.ping(True)
 
-# Routes 
-@app.route('/')
-def root():
-    # Test to make sure the app is connected to the database
-    query = "SHOW TABLES;"
+# Routes
+# have homepage route to /people by default for convenience, generally this will be your home route with its own template
+@app.route("/")
+def home():
+    return redirect("/Home")
 
-    cursor = mysql.connection.cursor()
-    cursor.execute(query)
-    results = json.dumps(cursor.fetchall())
+@app.route("/Home")
+def Main():
+    return render_template("Home.j2")
 
-    return results
+# route for ArtistPerformances page
+@app.route("/ArtistPerformances", methods=["GET"])
+def ArtistPerformances():
 
-@app.route('/artist-performances', methods = ['GET', 'POST'])
-def concert_artists():
-    if request.method == 'GET':
-        pass
-    
-    elif request.method == 'POST':
-        pass
+    # Grab ArtistPerformances data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the people in bsg_people
+        query = "SELECT concert_artistID AS `Performance ID`, Concerts.date AS Date, Artists.name AS `Artist` FROM Concert_Artists JOIN Artists ON Artists.artistID = Concert_Artists.artistID JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID"
+        cur = db.execute_query(db_connection=db_connection, query=query)
+        data = cur.fetchall()
 
-@app.route('/edit-performance/<int:id>', methods = ['GET', 'POST'])
-def edit_concert_artists(id):
-    if request.method == 'GET':
-        # Get performance info to display
-        query1 = "SELECT artistID AS `Artist`, concertID AS `Performance` FROM Concert_Artists WHERE concert_artistID = '%s';" % (id)
-        cursor = mysql.connection.cursor()
-        cursor.execute(query)
-        data = cursor.fetchall()
+        # mySQL query to grab artist data for our dropdown
+        query2 = "SELECT Artist from Artists"
+        cur = db.execute_query(db_connection=db_connection, query=query)
+        homeworld_data = cur.fetchall()
 
-        # Get artist info for drop down
-        query2 = "SELECT artistID, name FROM Artists"
-        cursor = mysql.connection.cursor()
-        cursor.execute(query)
-        artists = cursor.fetchall()
-
-        # Get concert info for drop down
-        query3 = "SELECT Concerts.concertID AS `concertID`, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID;"
-        cursor = mysql.connection.cursor()
-        cursor.execute(query)
-        concerts = cursor.fetchall()
-
-        return render_template('EditArtistPerformances.j2', data=data, artists=Artists, Concerts=concerts)
-    
-    elif request.method == 'POST':
-        # Get form inputs
-        concert_artistID = request.form['concert_artistID']
-        concertID = request.form['concertID']
-        artistID = request.form['artistID']
-
-        # Update the database
-        query = "UPDATE Concert_Artists SET concertID = '%s', artistID = '%s' WHERE concert_artistID = '%s';"
-        cursor = mysql.connection.cursor()
-        cursor.execute(query, (concertID, artistID, concert_artistID))
-        mysql.connection.commit()
-
-        return redirect('/artist-performances')
-
-
-@app.route('/delete-performance/<int:id>')
-def delete_concert_artist(id):
-    query = "DELETE FROM Concert_Artists WHERE concert_artistID = '%s';"
-    cursor = mysql.connection.cursor()
-    cursor.execute(query, (id,))
-    mysql.connection.commit()
-
-    return redirect('/artist-performances')
-
+        # render edit_people page passing our query data and homeworld data to the edit_people template
+        return render_template("ArtistPerformances.j2", data=data, homeworlds=homeworld_data)
 
 # Listener
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 2896))
-    app.run(port=port, debug=True)
+    app.run(port=31669, debug=True)
