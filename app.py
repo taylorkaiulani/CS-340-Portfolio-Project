@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 db_connection = db.connect_to_database()
 mysql = MySQL(app)
-# db_connection.ping(True)
+db_connection.ping(True)
 
 # Routes
 # have homepage route to /people by default for convenience, generally this will be your home route with its own template
@@ -26,13 +26,14 @@ def ArtistPerformances():
     # insert a person into the bsg_people entity
     if request.method == "POST":
         # fire off if user presses the Add Person button
-        if request.form.get("insertArtistPerformance"):
+        if request.form.get("Add_ArtistPerformance"):
             # grab user form inputs
-            concert = request.form["concert"]
-            artist = request.form["artist"]
-            query = "INSERT INTO Concert_Artists (concert, artist) VALUES (%s, %s)"
-            cur = db.execute_query(db_connection=db_connection, query=query)
-            mysql.connection.commit()
+            concertID = request.form["concertID"]
+            artistID = request.form["artistID"]
+            query = "INSERT INTO Concert_Artists (concertID, artistID) VALUES (%s, %s)"
+            # Update the database with new entry
+            cur = db.execute_query(db_connection=db_connection, query=query, query_params=(concertID, artistID))
+            db_connection.commit()
 
             # redirect back to people page
             return redirect("/ArtistPerformances")
@@ -40,7 +41,7 @@ def ArtistPerformances():
     # Grab ArtistPerformances data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the people in bsg_people
-        query = "SELECT concert_artistID AS `Performance ID`, Concerts.date AS Date, Artists.name AS `Artist` FROM Concert_Artists JOIN Artists ON Artists.artistID = Concert_Artists.artistID JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID"
+        query = "SELECT concert_artistID AS `Performance ID`, Artists.name AS `Artist`, Concerts.date AS Date, Venues.name AS `Venue` FROM Concert_Artists JOIN Artists ON Artists.artistID = Concert_Artists.artistID JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID JOIN Venues ON Venues.venueID = Concerts.venueID"
         cur = db.execute_query(db_connection=db_connection, query=query)
         data = cur.fetchall()
 
@@ -98,4 +99,4 @@ def delete_concert_artist(id):
 
 # Listener
 if __name__ == "__main__":
-    app.run(port=2896, debug=True)
+    app.run(port=31669, debug=True)
