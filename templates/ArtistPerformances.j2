@@ -101,25 +101,20 @@
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
 				<label for="artist">Artist:</label>
-				<select class="form-control" class="form-control" id="artistID" name="artistID"
-				pattern="[0-4]{1}" placeholder="" required>
-					<option value="1">Billie Eilish</option>
-					<option value="2">Olivia Rodrigo</option>
-					<option value="3">Imagine Dragons</option>
-					<option value="4">ODESZA</option>
-				</select>
-				
-				<label for="concert">Concert:</label>
-				<select class="form-control" id="concertID" name="concertID"
-				pattern="[0-4]{1}" placeholder="" required>
-					<option value="1">4/8/2023 Stubbs</option>
-					<option value="2">5/10/2023 Ryman Auditorium</option>
-					<option value="3">6/24/2023 930 Club</option>
-					<option value="4">7/14/2023 Red Rocks</option>
-				</select>
+                <select name="artistID" id="artistID">
+                    {% for artist in Artists %}
+					<option value="{{artist.artistID}}"> {{artist.name}} </option>
+					{% endfor %}
+                </select>
 
-      </fieldset>
-
+				<label for="concert"> Concert: </label>
+				<select name="concertID" id="concertID">
+					{% for concert in Concerts %}
+					<option value="{{concert.concertID}}"> {{concert.date}}, {{concert.venue}}  </option>
+					{% endfor %}
+				</select>
+      		</fieldset>
+			
             <!-- Create 'Add' and 'Cancel' buttons -->
 			<input type="submit" value="Add ArtistPerformance" name="Add_ArtistPerformance"
 			class="btn btn-primary" style="margin:.5rem;">
