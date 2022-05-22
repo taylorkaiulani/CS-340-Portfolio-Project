@@ -41,7 +41,7 @@ def ArtistPerformances():
     # Grab ArtistPerformances data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the people in bsg_people
-        query = "SELECT concert_artistID AS `Performance ID`, Artists.name AS `Artist`, Concerts.date AS Date, Venues.name AS `Venue` FROM Concert_Artists JOIN Artists ON Artists.artistID = Concert_Artists.artistID JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID JOIN Venues ON Venues.venueID = Concerts.venueID"
+        query = "SELECT concert_artistID AS `Performance ID`, Artists.name AS `Artist`, Concerts.date AS Date, Venues.name AS `Venue` FROM Concert_Artists JOIN Artists ON Artists.artistID = Concert_Artists.artistID JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID JOIN Venues ON Venues.venueID = Concerts.venueID ORDER BY concert_artistID"
         cur = db.execute_query(db_connection=db_connection, query=query)
         data = cur.fetchall()
 
@@ -65,7 +65,7 @@ def EditArtistPerformance(id):
         query1 = ("SELECT Artists.name AS `Artist`, Venues.name AS `Venue`, Concerts.date AS `Date`, concert_artistID FROM Concert_Artists JOIN Concerts ON Concert_Artists.concertID = Concerts.concertID "
         + "JOIN Venues ON Venues.venueID = Concerts.venueID "
         + "JOIN Artists ON Concert_Artists.artistID = Artists.artistID "
-        + "WHERE concert_artistID = '%s';") % (id)
+        + "WHERE concert_artistID = %s") % (id)
         cur = db.execute_query(db_connection=db_connection, query=query1)
         data = cur.fetchall()
 
@@ -75,7 +75,7 @@ def EditArtistPerformance(id):
         artists = cur.fetchall()
 
         # Get concert info for drop down
-        query3 = "SELECT concertID, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID;"
+        query3 = "SELECT concertID, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID"
         cur = db.execute_query(db_connection=db_connection, query=query3)
         concerts = cur.fetchall()
 
@@ -88,17 +88,17 @@ def EditArtistPerformance(id):
         artistID = request.form['artistID']
 
         # Update the database
-        query = "UPDATE Concert_Artists SET concertID = '%s', artistID = '%s' WHERE concert_artistID = '%s';"
+        query = "UPDATE Concert_Artists SET concertID = %s, artistID = %s WHERE concert_artistID = %s"
         cur = db.execute_query(db_connection=db_connection, query=query, query_params=(concertID, artistID, concert_artistID))
-        mysql.connection.commit()
+        db_connection.commit()
 
         return redirect('/ArtistPerformances')
 
 @app.route('/DeletePerformance/<int:id>')
 def delete_concert_artist(id):
-    query = "DELETE FROM Concert_Artists WHERE concert_artistID = '%s';" % (id)
+    query = "DELETE FROM Concert_Artists WHERE concert_artistID = %s" % (id)
     cur = db.execute_query(db_connection=db_connection, query=query)
-    mysql.connection.commit()
+    db_connection.commit()
 
     return redirect('/ArtistPerformances')
 
