@@ -46,12 +46,17 @@ def ArtistPerformances():
         data = cur.fetchall()
 
         # mySQL query to grab artist data for our dropdown
-        query2 = "SELECT Artist from Artists"
-        cur = db.execute_query(db_connection=db_connection, query=query)
-        homeworld_data = cur.fetchall()
+        query2 = "SELECT artistID, name FROM Artists"
+        cur = db.execute_query(db_connection=db_connection, query=query2)
+        artists = cur.fetchall()
 
-        # render edit_people page passing our query data and homeworld data to the edit_people template
-        return render_template("ArtistPerformances.j2", data=data, homeworlds=homeworld_data)
+        # Get concert info for drop down
+        query3 = "SELECT concertID, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID"
+        cur = db.execute_query(db_connection=db_connection, query=query3)
+        concerts = cur.fetchall()
+
+        # render page passing our query data
+        return render_template("ArtistPerformances.j2", data=data, Artists=artists, Concerts=concerts)
 
 @app.route('/EditPerformance/<int:id>', methods = ['GET', 'POST'])
 def EditArtistPerformance(id):
