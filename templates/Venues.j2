@@ -1,5 +1,5 @@
 <html>
-<!-- Adapted from the CS 340 people.html UI design -->
+<!-- Adapted from CS340 flask starter app -->
 <head>
 	<h2>CONCERTS UNLIMITED</h2>
 	<link href="style.css" rel="stylesheet" type="text/css" />
@@ -36,16 +36,16 @@
 			document.getElementById('delete').style.display = 'none';
 		}
 	}
-	function newArtistPerformance() {
+	function newVenue() {
 		showform('insert');
 	}
-	function updateArtistPerformance(pid) {
+	function updateVenue(pid) {
 		showform('update');
 	}
-	function deleteArtistPerformance(pid) {
+	function deleteVenue(pid) {
 		showform('delete');
 	}
-	function browseArtistPerformance() {
+	function browseVenue() {
 		showform('browse');
 	}
 	function showAll() {
@@ -54,10 +54,10 @@
 	</script>
 </head>
 
-<body onload="browseArtistPerformance()">
-		<h3>Artist Performances</h3> [ <a href="Index">Home</a> | Concerts | Artists | <b>Artist Performances</b> | <a href="Venues">Venues</a> | Record Labels | Ticketholders | Tickets ]
+<body onload="browseVenue()">
+		<h3>Venues</h3> [ <a href="Index">Home</a> | Concerts | Artists | <a href="ArtistPerformances">Artist Performances</a> | <b>Venues</b> | Record Labels | Ticketholders | Tickets ]
 	<div id="browse">
-		<p><a href="#" onClick="newArtistPerformance()">Add New</a> </p>
+		<p><a href="#" onClick="newVenue()">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py -->
             {% if data %}
@@ -84,8 +84,7 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="EditPerformance/{{item['Performance ID']}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="DeletePerformance/{{item['Performance ID']}}" class="btn btn-default">Delete</a></td>
+						    <td><a href="DeleteVenue/{{item['ID']}}" class="btn btn-default">Delete</a></td>
 
 					    </tr>
                         {% endfor %}
@@ -96,29 +95,33 @@
 
 	<div id="insert">
 		<!-- form to INSERT new data-->
-		<form id="insertArtistPerformance" action="/ArtistPerformances" method="post">
-			<legend><strong>Add Artist Performance</strong></legend>
+		<form id="insertVenue" action="/Venues" method="POST">
+			<legend><strong>Add Venue</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
-				<label for="artist">Artist:</label>
-                <select name="artistID" id="artistID">
-                    {% for artist in Artists %}
-					<option value="{{artist.artistID}}"> {{artist.name}} </option>
-					{% endfor %}
-                </select>
+				<label for="venue">Venue:</label>
+                <input type="text" class="form-control" name="venue" id="venue" placeholder="" required>
 
-				<label for="concert"> Concert: </label>
-				<select name="concertID" id="concertID">
-					{% for concert in Concerts %}
-					<option value="{{concert.concertID}}"> {{concert.date}}, {{concert.venue}}  </option>
-					{% endfor %}
-				</select>
+				<label for="address">Address:</label>
+                <input type="text" class="form-control" name="address" id="address" placeholder="" required>
+
+				<label for="city">City:</label>
+                <input type="text" class="form-control" name="city" id="city" placeholder="" required>
+
+                </select>
+				<label for="state">State:</label>
+                <input type="text" class="form-control" name="state" id="state" maxlength="2" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()" placeholder="" required>
+
+                </select>
+				<label for="capacity">Capacity:</label>
+                <input type="text" class="form-control" name="capacity" id="capacity" pattern="{1,}"  min="0" max="100000" placeholder="" required>
+
       		</fieldset>
 			
             <!-- Create 'Add' and 'Cancel' buttons -->
-			<input type="submit" value="Add ArtistPerformance" name="Add_ArtistPerformance"
+			<input type="submit" value="Add Venue" name="Add_Venue"
 			class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseArtistPerformance()">
+			<input class="btn" type="button" value="Cancel" onClick="browseVenue()">
         </form>
 	</div><!--insert-->
 
