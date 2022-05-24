@@ -13,19 +13,19 @@ db_connection.ping(True)
 # have homepage route to /people by default for convenience, generally this will be your home route with its own template
 @app.route("/")
 def home():
-    return redirect("/Home")
+    return redirect("/Index")
 
-@app.route("/Home")
+@app.route("/Index")
 def Main():
-    return render_template("Home.j2")
+    return render_template("Index.j2")
 
 # route for ArtistPerformances page
 @app.route("/ArtistPerformances", methods=["POST", "GET"])
 def ArtistPerformances():
     # Separate out the request methods, in this case this is for a POST
-    # insert a person into the bsg_people entity
+    # insert an artist into the Concert_Artists table
     if request.method == "POST":
-        # fire off if user presses the Add Person button
+        # fire off if user presses the Add Artist Performance button
         if request.form.get("Add_ArtistPerformance"):
             # grab user form inputs
             concertID = request.form["concertID"]
@@ -35,12 +35,12 @@ def ArtistPerformances():
             cur = db.execute_query(db_connection=db_connection, query=query, query_params=(concertID, artistID))
             db_connection.commit()
 
-            # redirect back to people page
+            # redirect back to ArtistPerformances page
             return redirect("/ArtistPerformances")
 
     # Grab ArtistPerformances data so we send it to our template to display
     if request.method == "GET":
-        # mySQL query to grab all the people in bsg_people
+        # mySQL query to grab all the Artist Performances in the Concert_Artists table
         query = "SELECT concert_artistID AS `Performance ID`, Artists.name AS `Artist`, Concerts.date AS Date, Venues.name AS `Venue` FROM Concert_Artists JOIN Artists ON Artists.artistID = Concert_Artists.artistID JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID JOIN Venues ON Venues.venueID = Concerts.venueID ORDER BY concert_artistID"
         cur = db.execute_query(db_connection=db_connection, query=query)
         data = cur.fetchall()
@@ -101,6 +101,47 @@ def delete_concert_artist(id):
     db_connection.commit()
 
     return redirect('/ArtistPerformances')
+
+# route for Venues page
+@app.route("/Venues", methods=["POST", "GET"])
+def Venues():
+    # Separate out the request methods, in this case this is for a POST
+    # insert a venue into the Venues entity
+    if request.method == "POST":
+        # fire off if user presses the Add Venue button
+        if request.form.get("Add_Venue"):
+            # grab user form inputs
+            venue = request.form["venue"]
+            address = request.form["address"]
+            city = request.form["city"]
+            state = request.form["state"]
+            capacity = request.form["capacity"]
+            query = "INSERT INTO Venues(name, address, city, state, capacity) VALUES (%s, %s, %s, %s, %s);"
+            # Update the database with new entry
+            cur = db.execute_query(db_connection=db_connection, query=query, query_params=(venue, address, city, state, capacity))
+            db_connection.commit()
+
+            # redirect back to people page
+            return redirect("/Venues")
+
+    # Grab ArtistPerformances data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the people in bsg_people
+        query = "SELECT venueID AS `ID`, name AS `Venue`, address AS `Address`, city AS `City`, state AS `State`, FORMAT(capacity, 'N0') AS `Capacity` FROM Venues"
+        cur = db.execute_query(db_connection=db_connection, query=query)
+        data = cur.fetchall()
+
+        # render page passing our query data
+        return render_template("Venues.j2", data=data)
+
+# Venue table deletePerformance ID
+@app.route('/DeleteVenue/<int:id>')
+def delete_venues(id):
+    query = "DELETE FROM Venues WHERE venueID = %s" % (id)
+    cur = db.execute_query(db_connection=db_connection, query=query)
+    db_connection.commit()
+
+    return redirect('/Venues')
 
 # Listener
 if __name__ == "__main__":
