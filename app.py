@@ -47,7 +47,7 @@ def Concerts():
         return redirect("/Concerts")
 
 
-# routes for ArtistPerformances page
+# route for ArtistPerformances page
 @app.route("/ArtistPerformances", methods=["POST", "GET"])
 def ArtistPerformances():
     # Separate out the request methods, in this case this is for a POST
@@ -69,7 +69,7 @@ def ArtistPerformances():
     # Grab ArtistPerformances data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the Artist Performances in the Concert_Artists table
-        query = "SELECT concert_artistID AS `Performance ID`, Artists.name AS `Artist`, Concerts.date AS Date, Venues.name AS `Venue` FROM Concert_Artists JOIN Artists ON Artists.artistID = Concert_Artists.artistID JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID JOIN Venues ON Venues.venueID = Concerts.venueID ORDER BY concert_artistID"
+        query = "SELECT concert_artistID AS `ID`, Artists.name AS `Artist`, Concerts.date AS Date, Venues.name AS `Venue` FROM Concert_Artists JOIN Artists ON Artists.artistID = Concert_Artists.artistID JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID JOIN Venues ON Venues.venueID = Concerts.venueID ORDER BY concert_artistID"
         cur = db.execute_query(db_connection=db_connection, query=query)
         data = cur.fetchall()
 
@@ -150,12 +150,12 @@ def Venues():
             cur = db.execute_query(db_connection=db_connection, query=query, query_params=(venue, address, city, state, capacity))
             db_connection.commit()
 
-            # redirect back to people page
+            # redirect back to venues page
             return redirect("/Venues")
 
-    # Grab ArtistPerformances data so we send it to our template to display
+    # Grab Venues data so we send it to our template to display
     if request.method == "GET":
-        # mySQL query to grab all the people in bsg_people
+        # mySQL query to grab all the venues in Venues
         query = "SELECT venueID AS `ID`, name AS `Venue`, address AS `Address`, city AS `City`, state AS `State`, FORMAT(capacity, 'N0') AS `Capacity` FROM Venues"
         cur = db.execute_query(db_connection=db_connection, query=query)
         data = cur.fetchall()
@@ -163,7 +163,7 @@ def Venues():
         # render page passing our query data
         return render_template("Venues.j2", data=data)
 
-# Venue table deletePerformance ID
+# Venue table entry deletion
 @app.route('/DeleteVenue/<int:id>')
 def delete_venues(id):
     query = "DELETE FROM Venues WHERE venueID = %s" % (id)
@@ -172,70 +172,85 @@ def delete_venues(id):
 
     return redirect('/Venues')
 
+# route for Artists page
+@app.route("/Artists", methods=["POST", "GET"])
+def Artists():
+    # Separate out the request methods, in this case this is for a POST
+    # insert an artist into the Artists entity
+    if request.method == "POST":
+        # fire off if user presses the Add Artist button
+        if request.form.get("Add_Artist"):
+            # grab user form inputs
+            artist = request.form["artist"]
+            recordLabelID = request.form["recordLabelID"]
+            query = "INSERT INTO Artists(name, recordLabelID) VALUES (%s, %s)"
+            # Update the database with new entry
+            db.execute_query(db_connection=db_connection, query=query, query_params=(artist, recordLabelID))
+            db_connection.commit()
 
-# routes for Ticketholders page
-@app.route('/Ticketholders', methods=['GET', 'POST'])
-def Ticketholders():
-    if request.method == 'GET':
-        query = ("SELECT ticketholderID AS `Ticketholder ID`, firstName AS `First Name`, "
-        + "lastName AS `Last Name`, email AS `Email`, phone AS `Phone Number` "
-        + "FROM Ticketholders ORDER BY ticketholderID ASC")
+            # redirect back to artists page
+            return redirect("/Artists")
+
+    # Grab Artists data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the artists in Artists
+        query = "SELECT artistID AS `ID`, Artists.name as Artist, `Record Labels`.name AS `Record Label` FROM Artists INNER JOIN `Record Labels` ON `Record Labels`.recordLabelID = Artists.recordLabelID ORDER BY artistID"
         cur = db.execute_query(db_connection=db_connection, query=query)
         data = cur.fetchall()
 
-        return render_template("Ticketholders.j2", data=data)
-    
-    elif request.method == 'POST':
-        firstName = request.form["firstName"]
-        lastName = request.form["lastName"]
-        email = request.form["email"]
-        phone = request.form["phone"]
+        # mySQL query to grab record labels data for our dropdown
+        query2 = "SELECT recordLabelID, name FROM `Record Labels`"
+        cur = db.execute_query(db_connection=db_connection, query=query2)
+        recordlabels = cur.fetchall()
 
-        query = "INSERT INTO Ticketholders(firstName, lastName, email, phone) VALUES (%s, %s, %s, %s)"
-        cur = db.execute_query(db_connection=db_connection, query=query, query_params=(firstName, lastName, email, phone))
-        db_connection.commit()
+        # render page passing our query data
+        return render_template("Artists.j2", data=data, RecordLabels=recordlabels)
 
-        return redirect('/Ticketholders')
+# Artist table entry deletion
+@app.route('/DeleteArtist/<int:id>')
+def delete_artists(id):
+    query = "DELETE FROM Artists WHERE artistID = %s" % (id)
+    cur = db.execute_query(db_connection=db_connection, query=query)
+    db_connection.commit()
 
+    return redirect('/Artists')
 
-# routes for Tickets page
-@app.route('/Tickets', methods=['GET', 'POST'])
-def Tickets():
-    if request.method == 'GET':
-        query1 = ("SELECT ticketID AS `Ticket ID`, Venues.name AS `Venue`, Concerts.date AS `Date`, "
-            + "CONCAT(Ticketholders.firstName, Ticketholders.lastName) AS `Ticketholder Name`, "
-            + "scanned AS `Scanned?`, (COUNT * FROM Tickets) AS `Tickets Sold` FROM Tickets "
-            + "JOIN Concerts ON Tickets.concertID = Concerts.concertID "
-            + "JOIN Venues ON Concerts.venueID = Venues.venueID "
-            + "JOIN Ticketholders ON Tickets.ticketholderID = Ticketholders.ticketholderID")
-        cur = db.execute_query(db_connection=db_connection, query=query1)
+# route for RecordLabels page
+@app.route("/RecordLabels", methods=["POST", "GET"])
+def RecordLabels():
+    # Separate out the request methods, in this case this is for a POST
+    # insert an record label into the Record Labels entity
+    if request.method == "POST":
+        # fire off if user presses the Add Record Label button
+        if request.form.get("Add_RecordLabel"):
+            # grab user form inputs
+            recordlabel = request.form["recordlabel"]
+            query = "INSERT INTO `Record Labels`(name) VALUES (%s);"
+            # Update the database with new entry
+            db.execute_query(db_connection=db_connection, query=query, query_params=(recordlabel))
+            db_connection.commit()
+ 
+            # redirect back to Record Labels page
+            return redirect("/RecordLabels")
+
+    # Grab Record Labels data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the record labels in Record Labels
+        query = "SELECT recordLabelID AS 'ID', name AS 'Record Label' FROM `Record Labels`"
+        cur = db.execute_query(db_connection=db_connection, query=query)
         data = cur.fetchall()
 
-        query2 = ("SELECT concertID, date, Venues.name FROM Concerts JOIN Venues ON Concerts.venueID = Venues.venueID")
-        cur = db.execute_query(db_connection=db_connection, query=query2)
-        concerts = cur.fetchall()
+        # render page passing our query data
+        return render_template("RecordLabels.j2", data=data)
 
-        query3 = ("SELECT ticketholderID, CONCAT(firstName, lastName) AS `name` FROM Ticketholders")
-        cur = db.execute_query(db_connection=db_connection, query=query3)
-        ticketholders = cur.fetchall()
+# Artist table entry deletion
+@app.route('/DeleteRecordLabel/<int:id>')
+def delete_recordlabels(id):
+    query = "DELETE FROM `Record Labels` WHERE recordLabelID = %s" % (id)
+    cur = db.execute_query(db_connection=db_connection, query=query)
+    db_connection.commit()
 
-        query4 = ("SELECT COUNT(scanned) AS `Attendance` FROM Tickets WHERE scanned = 1")
-        cur = db.execute_query(db_connection=db_connection, query=query4)
-        attendance = cur.fetchall()
-
-        return render_template("Tickets.j2", data=data, concerts=concerts, ticketholders=ticketholders, attendance=attendance)
-
-    elif request.method == 'POST':
-        concertID = request.form["concertID"]
-        ticketholderID = request.form["ticketholderID"]
-        scanned = request.form["scanned"]
-
-        query = ("INSERT INTO Tickets(ticketholderID, concertID, scanned) VALUES (%s, %s, %s)")
-        cur = db.execute_query(db_connection=db_connection, query=query, query_params=(ticketholderID, concertID, scanned))
-        db_connection.commit()
-        
-        return redirect('/Tickets')
-
+    return redirect('/RecordLabels')
 
 # Listener
 if __name__ == "__main__":
