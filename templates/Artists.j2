@@ -36,16 +36,16 @@
 			document.getElementById('delete').style.display = 'none';
 		}
 	}
-	function newVenue() {
+	function newArtist() {
 		showform('insert');
 	}
-	function updateVenue(pid) {
+	function updateArtist(pid) {
 		showform('update');
 	}
-	function deleteVenue(pid) {
+	function deleteArtist(pid) {
 		showform('delete');
 	}
-	function browseVenue() {
+	function browseArtist() {
 		showform('browse');
 	}
 	function showAll() {
@@ -54,10 +54,10 @@
 	</script>
 </head>
 
-<body onload="browseVenue()">
-		<h3>Venues</h3> [ <a href="Index">Home</a> | <a href="Concerts">Concerts</a> | <a href="Artists">Artists</a> | <a href="ArtistPerformances">Artist Performances</a> | <b>Venues</b> | <a href="RecordLabels">Record Labels</a> | <a href="Ticketholders">Ticketholders</a> | <a href="Tickets">Tickets</a> ]
+<body onload="browseArtist()">
+		<h3>Artists</h3> [ <a href="Index">Home</a> | <a href="Concerts">Concerts</a> | <b>Artists</b> | <a href="ArtistPerformances">Artist Performances</a> | <a href="Venues">Venues</a> | <a href="RecordLabels">Record Labels</a> | <a href="Ticketholders">Ticketholders</a> | <a href="Tickets">Tickets</a> ]
 	<div id="browse">
-		<p><a href="#" onClick="newVenue()">Add New</a> </p>
+		<p><a href="#" onClick="newArtist()">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py -->
             {% if data %}
@@ -84,7 +84,7 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="DeleteVenue/{{item['ID']}}" class="btn btn-default">Delete</a></td>
+						    <td><a href="DeleteArtist/{{item['ID']}}" class="btn btn-default">Delete</a></td>
 
 					    </tr>
                         {% endfor %}
@@ -95,33 +95,28 @@
 
 	<div id="insert">
 		<!-- form to INSERT new data-->
-		<form id="insertVenue" action="/Venues" method="POST">
-			<legend><strong>Add Venue</strong></legend>
+		<form id="insertArtist" action="/Artists" method="POST">
+			<legend><strong>Add Artist</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
-				<label for="venue">Venue:</label>
-                <input type="text" class="form-control" name="venue" id="venue" placeholder="" required>
-
-				<label for="address">Address:</label>
-                <input type="text" class="form-control" name="address" id="address" placeholder="" required>
-
-				<label for="city">City:</label>
-                <input type="text" class="form-control" name="city" id="city" placeholder="" required>
-
-                </select>
-				<label for="state">State:</label>
-                <input type="text" class="form-control" name="state" id="state" maxlength="2" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()" placeholder="" required>
-
-                </select>
-				<label for="capacity">Capacity:</label>
-                <input type="text" class="form-control" name="capacity" id="capacity" pattern="{1,}"  min="0" max="100000" placeholder="" required>
+				<label for="artist">Artist:</label>
+                <input type="text" class="form-control" name="artist" id="artist" placeholder="" required>
+				
+				<label for="recordlabel"> Record Label: </label>
+				<select name="recordLabelID" id="recordLabelID">
+					{% for recordlabel in RecordLabels %}
+					<option value="{{recordlabel.recordLabelID}}"> {{recordlabel.name}} </option>
+					{% endfor %}
+				</select>
 
       		</fieldset>
 			
+
+			
             <!-- Create 'Add' and 'Cancel' buttons -->
-			<input type="submit" value="Add Venue" name="Add_Venue"
+			<input type="submit" value="Add Artist" name="Add_Artist"
 			class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseVenue()">
+			<input class="btn" type="button" value="Cancel" onClick="browseArtist()">
         </form>
 	</div><!--insert-->
 
