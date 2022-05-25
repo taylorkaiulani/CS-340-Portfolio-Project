@@ -198,6 +198,45 @@ def Ticketholders():
         return redirect('/Ticketholders')
 
 
+# routes for Tickets page
+@app.route('/Tickets', methods=['GET', 'POST'])
+def Tickets():
+    if request.method == 'GET':
+        query1 = ("SELECT ticketID AS `Ticket ID`, Venues.name AS `Venue`, Concerts.date AS `Date`, "
+            + "CONCAT(Ticketholders.firstName, Ticketholders.lastName) AS `Ticketholder Name`, "
+            + "scanned AS `Scanned?`, (COUNT * FROM Tickets) AS `Tickets Sold` FROM Tickets "
+            + "JOIN Concerts ON Tickets.concertID = Concerts.concertID "
+            + "JOIN Venues ON Concerts.venueID = Venues.venueID "
+            + "JOIN Ticketholders ON Tickets.ticketholderID = Ticketholders.ticketholderID")
+        cur = db.execute_query(db_connection=db_connection, query=query1)
+        data = cur.fetchall()
+
+        query2 = ("SELECT concertID, date, Venues.name FROM Concerts JOIN Venues ON Concerts.venueID = Venues.venueID")
+        cur = db.execute_query(db_connection=db_connection, query=query2)
+        concerts = cur.fetchall()
+
+        query3 = ("SELECT ticketholderID, CONCAT(firstName, lastName) AS `name` FROM Ticketholders")
+        cur = db.execute_query(db_connection=db_connection, query=query3)
+        ticketholders = cur.fetchall()
+
+        query4 = ("SELECT COUNT(scanned) AS `Attendance` FROM Tickets WHERE scanned = 1")
+        cur = db.execute_query(db_connection=db_connection, query=query4)
+        attendance = cur.fetchall()
+
+        return render_template("Tickets.j2", data=data, concerts=concerts, ticketholders=ticketholders, attendance=attendance)
+
+    elif request.method == 'POST':
+        concertID = request.form["concertID"]
+        ticketholderID = request.form["ticketholderID"]
+        scanned = request.form["scanned"]
+
+        query = ("INSERT INTO Tickets(ticketholderID, concertID, scanned) VALUES (%s, %s, %s)")
+        cur = db.execute_query(db_connection=db_connection, query=query, query_params=(ticketholderID, concertID, scanned))
+        db_connection.commit()
+        
+        return redirect('/Tickets')
+
+
 # Listener
 if __name__ == "__main__":
     app.run(port=31669, debug=True)
