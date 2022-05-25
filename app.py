@@ -47,7 +47,7 @@ def Concerts():
         return redirect("/Concerts")
 
 
-# route for ArtistPerformances page
+# routes for ArtistPerformances page
 @app.route("/ArtistPerformances", methods=["POST", "GET"])
 def ArtistPerformances():
     # Separate out the request methods, in this case this is for a POST
@@ -172,6 +172,30 @@ def delete_venues(id):
 
     return redirect('/Venues')
 
+
+# routes for Ticketholders page
+@app.route('/Ticketholders', methods=['GET', 'POST'])
+def Ticketholders():
+    if request.method == 'GET':
+        query = ("SELECT ticketholderID AS `Ticketholder ID`, firstName AS `First Name`, "
+        + "lastName AS `Last Name`, email AS `Email`, phone AS `Phone Number` "
+        + "FROM Ticketholders ORDER BY ticketholderID ASC")
+        cur = db.execute_query(db_connection=db_connection, query=query)
+        data = cur.fetchall()
+
+        return render_template("Ticketholders.j2", data=data)
+    
+    elif request.method == 'POST':
+        firstName = request.form["firstName"]
+        lastName = request.form["lastName"]
+        email = request.form["email"]
+        phone = request.form["phone"]
+
+        query = "INSERT INTO Ticketholders(firstName, lastName, email, phone) VALUES (%s, %s, %s, %s)"
+        cur = db.execute_query(db_connection=db_connection, query=query, query_params=(firstName, lastName, email, phone))
+        db_connection.commit()
+
+        return redirect('/Ticketholders')
 
 
 # Listener
