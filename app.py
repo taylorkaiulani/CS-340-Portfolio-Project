@@ -19,6 +19,34 @@ def home():
 def Main():
     return render_template("Index.j2")
 
+
+# routes for Concerts page
+@app.route("/Concerts", methods=['GET', 'POST'])
+def Concerts():
+    if request.method == 'GET':
+        query1 = ("SELECT concertID AS `Concert ID`, date AS `Date`, Venues.name AS `Venue` "
+            + "FROM Concerts JOIN Venues ON Concerts.venueID = Venues.venueID "
+            + "ORDER BY concertID ASC")
+        cur = db.execute_query(db_connection=db_connection, query=query1)
+        data = cur.fetchall()
+
+        query2 = ("SELECT venueID, name FROM Venues")
+        cur = db.execute_query(db_connection=db_connection, query=query2)
+        venues = cur.fetchall()
+
+        return render_template('Concerts.j2', data=data, venues=venues)
+    
+    elif request.method == 'POST':
+        date = request.form["date"]
+        venueID = request.form["venueID"]
+
+        query = "INSERT INTO Concerts (date, venueID) VALUES (%s, %s)"
+        cur = db.execute_query(db_connection=db_connection, query=query, query_params=(date, venueID))
+        db_connection.commit()
+
+        return redirect("/Concerts")
+
+
 # route for ArtistPerformances page
 @app.route("/ArtistPerformances", methods=["POST", "GET"])
 def ArtistPerformances():
@@ -95,12 +123,13 @@ def EditArtistPerformance(id):
         return redirect('/ArtistPerformances')
 
 @app.route('/DeletePerformance/<int:id>')
-def delete_concert_artist(id):
+def DeleteArtistPerformance(id):
     query = "DELETE FROM Concert_Artists WHERE concert_artistID = %s" % (id)
     cur = db.execute_query(db_connection=db_connection, query=query)
     db_connection.commit()
 
     return redirect('/ArtistPerformances')
+
 
 # route for Venues page
 @app.route("/Venues", methods=["POST", "GET"])
@@ -142,6 +171,8 @@ def delete_venues(id):
     db_connection.commit()
 
     return redirect('/Venues')
+
+
 
 # Listener
 if __name__ == "__main__":
