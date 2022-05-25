@@ -227,7 +227,7 @@ def RecordLabels():
             recordlabel = request.form["recordlabel"]
             query = "INSERT INTO `Record Labels`(name) VALUES (%s);"
             # Update the database with new entry
-            db.execute_query(db_connection=db_connection, query=query, query_params=(recordlabel))
+            db.execute_query(db_connection=db_connection, query=query, query_params=(recordlabel,))
             db_connection.commit()
  
             # redirect back to Record Labels page
@@ -243,7 +243,7 @@ def RecordLabels():
         # render page passing our query data
         return render_template("RecordLabels.j2", data=data)
 
-# Artist table entry deletion
+# Record Labels table entry deletion
 @app.route('/DeleteRecordLabel/<int:id>')
 def delete_recordlabels(id):
     query = "DELETE FROM `Record Labels` WHERE recordLabelID = %s" % (id)
