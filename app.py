@@ -285,19 +285,20 @@ def Ticketholders():
 def Tickets():
     if request.method == 'GET':
         query1 = ("SELECT ticketID AS `Ticket ID`, Venues.name AS `Venue`, Concerts.date AS `Date`, "
-            + "CONCAT(Ticketholders.firstName, Ticketholders.lastName) AS `Ticketholder Name`, "
-            + "scanned AS `Scanned?`, (COUNT * FROM Tickets) AS `Tickets Sold` FROM Tickets "
+            + "CONCAT(Ticketholders.firstName, ' ', Ticketholders.lastName) AS `Ticketholder Name`, "
+            + "scanned AS `Scanned?` FROM Tickets "
             + "JOIN Concerts ON Tickets.concertID = Concerts.concertID "
             + "JOIN Venues ON Concerts.venueID = Venues.venueID "
-            + "JOIN Ticketholders ON Tickets.ticketholderID = Ticketholders.ticketholderID")
+            + "JOIN Ticketholders ON Tickets.ticketholderID = Ticketholders.ticketholderID "
+            + "ORDER BY Date ASC")
         cur = db.execute_query(db_connection=db_connection, query=query1)
         data = cur.fetchall()
 
-        query2 = ("SELECT concertID, date, Venues.name FROM Concerts JOIN Venues ON Concerts.venueID = Venues.venueID")
+        query2 = ("SELECT concertID, date, Venues.name AS `Venue` FROM Concerts JOIN Venues ON Concerts.venueID = Venues.venueID")
         cur = db.execute_query(db_connection=db_connection, query=query2)
         concerts = cur.fetchall()
 
-        query3 = ("SELECT ticketholderID, CONCAT(firstName, lastName) AS `name` FROM Ticketholders")
+        query3 = ("SELECT ticketholderID, CONCAT(firstName, ' ', lastName) AS `name` FROM Ticketholders")
         cur = db.execute_query(db_connection=db_connection, query=query3)
         ticketholders = cur.fetchall()
 
@@ -305,7 +306,12 @@ def Tickets():
         cur = db.execute_query(db_connection=db_connection, query=query4)
         attendance = cur.fetchall()
 
-        return render_template("Tickets.j2", data=data, concerts=concerts, ticketholders=ticketholders, attendance=attendance)
+        query5 = ("SELECT COUNT(*) AS `Tickets Sold` FROM Tickets "
+            + "JOIN Concerts ON Tickets.concertID = Concerts.concertID GROUP BY Tickets.concertID")
+        cur = db.execute_query(db_connection=db_connection, query=query5)
+        ticketSales = cur.fetchall()
+
+        return render_template("Tickets.j2", data=data, concerts=concerts, ticketholders=ticketholders, attendance=attendance, ticketSales=ticketSales)
 
     elif request.method == 'POST':
         concertID = request.form["concertID"]
@@ -320,4 +326,4 @@ def Tickets():
 
 # Listener
 if __name__ == "__main__":
-    app.run(port=31669, debug=True)
+    app.run(port=12700, debug=True)

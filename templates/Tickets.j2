@@ -1,0 +1,135 @@
+<html>
+<!-- Adapted from CS340 flask starter app -->
+<head>
+	<h2>CONCERTS UNLIMITED</h2>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<script language="JavaScript">
+	function showform(dowhat) {
+		/*
+		 * four DIVS: browse, insert, update, delete
+		 * this function sets one visible the others not
+		 */
+		if(dowhat == 'insert') {
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'block';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
+		} else if(dowhat == 'update') {
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'block';
+			document.getElementById('delete').style.display = 'none';
+		} else if(dowhat == 'delete') {
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'block';
+		} else if(dowhat == 'all') {
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'block';
+			document.getElementById('edit').style.display = 'block';
+			document.getElementById('delete').style.display = 'block';
+		} else { //by default display browse
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
+		}
+	}
+	function newTicket() {
+		showform('insert');
+	}
+	function updateTicket(pid) {
+		showform('update');
+	}
+	function deleteTicket(pid) {
+		showform('delete');
+	}
+	function browseTickets() {
+		showform('browse');
+	}
+	function showAll() {
+		showform('all');
+	}
+	</script>
+</head>
+
+<body onload="browseTickets()">
+		<h3>Tickets</h3> [ <a href="Index">Home</a> | <a href="Concerts">Concerts</a> | <a href="Artists">Artists</a> | <a href="ArtistPerformances">Artist Performances</a> | <a href="Venues">Venues</a> | <a href="RecordLabels">Record Labels</a> | <a href="Ticketholders">Ticketholders</a> | <b>Tickets</b> ]
+	<div id="browse">
+		<p><a href="#" onClick="newTicket()">Add New</a> </p>
+		<table border="1" cellpadding="5">
+            <!-- Access data tuple passed from app.py -->
+            {% if data %}
+			    <thead>
+				    <tr>
+					    <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+					    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+
+                        <!-- End of this for loop -->
+                        {% endfor %}
+                    </tr>
+
+				<tbody>
+					<!-- Now, iterate through every item in data -->
+                        {% for item in data %}
+					    <tr>
+						    <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+
+						    <!-- Create a <td> element with the value of that key in it -->
+						    <td> {{item[key]}} </td>
+                            {% endfor %}
+
+                            <!-- Create our edit/delete buttons -->
+
+					    </tr>
+                        {% endfor %}
+                {% endif %}
+        </table>
+	<p>&nbsp;</p>
+	</div>	<!-- browse -->
+
+	<div id="insert">
+		<!-- form to INSERT new data-->
+		<form id="insertTickets" action="/Tickets" method="POST">
+			<legend><strong>Add Ticket</strong></legend>
+			<fieldset>
+
+				<label for="ticketholderID"> Ticketholder: </label>
+                <select id="ticketholderID" name="ticketholderID">
+                    {% for ticketholder in ticketholders %}
+                    
+                    <option value="{{ticketholder.ticketholderID}}"> {{ticketholder.name}} </option>
+
+                    {% endfor %}
+                </select>
+
+                <label for="concertID"> Concert: </label>
+                <select id="concertID" name="concertID">
+                    {% for concert in concerts %}
+                    
+                    <option value="{{concert.concertID}}"> {{concert.Venue}}, {{concert.date}} </option>
+
+                    {% endfor %}
+                </select>
+
+                <label for="scanned"> Scanned? </label>
+                <select id="scanned" name="scanned">
+                    <option value=0 selected> No </option>
+                    <option value=1> Yes </option>
+                </select>
+
+      		</fieldset>
+			
+            <!-- Create 'Add' and 'Cancel' buttons -->
+			<input type="submit" value="Add Ticket" name="Add_Ticket" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseTickets()">
+        </form>
+	</div><!--insert-->
+
+</body>
+</html>
