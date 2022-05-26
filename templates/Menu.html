@@ -1,0 +1,27 @@
+<!-- Menu.html.j2 -->
+
+<nav>
+    <ul id="Nav">
+        <li><a class="btn" href="Index">Home</a></li>
+        <li><a class="btn" href="Concerts">Concerts</a></li>
+        <li><a class="btn" href="Artists">Artists</a></li>
+        <li><a class="btn" href="ArtistPerformances">Artist Performances</a></li>
+        <li><a class="btn" href="Venues">Venues</a></li>
+        <li><a class="btn" href="RecordLabels">Record Labels</a></li>
+        <li><a class="btn" href="Ticketholders">Ticketholders</a></li>
+        <li><a class="btn" href="Tickets">Tickets</a></li>
+    </ul>
+</nav>
+<script>
+    // Set color for current tab
+    var btnContainer = document.getElementById("Nav");
+    var btns = btnContainer.getElementsByClassName("btn");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function() {
+        var current = document.getElementsByClassName("active");
+        if (current.length > 0) { 
+          current[0].className = current[0].className.replace(" active", "");
+        }
+        this.className += " active";
+      });}
+    </script>
