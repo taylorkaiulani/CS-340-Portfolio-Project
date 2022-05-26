@@ -172,6 +172,7 @@ def delete_venues(id):
 
     return redirect('/Venues')
 
+
 # route for Artists page
 @app.route("/Artists", methods=["POST", "GET"])
 def Artists():
@@ -215,6 +216,7 @@ def delete_artists(id):
 
     return redirect('/Artists')
 
+
 # route for RecordLabels page
 @app.route("/RecordLabels", methods=["POST", "GET"])
 def RecordLabels():
@@ -251,6 +253,70 @@ def delete_recordlabels(id):
     db_connection.commit()
 
     return redirect('/RecordLabels')
+
+
+# routes for Ticketholders page
+@app.route('/Ticketholders', methods=['GET', 'POST'])
+def Ticketholders():
+    if request.method == 'GET':
+        query = ("SELECT ticketholderID AS `Ticketholder ID`, firstName AS `First Name`, "
+        + "lastName AS `Last Name`, email AS `Email`, phone AS `Phone Number` "
+        + "FROM Ticketholders ORDER BY ticketholderID ASC")
+        cur = db.execute_query(db_connection=db_connection, query=query)
+        data = cur.fetchall()
+
+        return render_template("Ticketholders.j2", data=data)
+
+    elif request.method == 'POST':
+        firstName = request.form["firstName"]
+        lastName = request.form["lastName"]
+        email = request.form["email"]
+        phone = request.form["phone"]
+
+        query = "INSERT INTO Ticketholders(firstName, lastName, email, phone) VALUES (%s, %s, %s, %s)"
+        cur = db.execute_query(db_connection=db_connection, query=query, query_params=(firstName, lastName, email, phone))
+        db_connection.commit()
+
+        return redirect('/Ticketholders')
+
+
+# routes for Tickets page
+@app.route('/Tickets', methods=['GET', 'POST'])
+def Tickets():
+    if request.method == 'GET':
+        query1 = ("SELECT ticketID AS `Ticket ID`, Venues.name AS `Venue`, Concerts.date AS `Date`, "
+            + "CONCAT(Ticketholders.firstName, Ticketholders.lastName) AS `Ticketholder Name`, "
+            + "scanned AS `Scanned?`, (COUNT * FROM Tickets) AS `Tickets Sold` FROM Tickets "
+            + "JOIN Concerts ON Tickets.concertID = Concerts.concertID "
+            + "JOIN Venues ON Concerts.venueID = Venues.venueID "
+            + "JOIN Ticketholders ON Tickets.ticketholderID = Ticketholders.ticketholderID")
+        cur = db.execute_query(db_connection=db_connection, query=query1)
+        data = cur.fetchall()
+
+        query2 = ("SELECT concertID, date, Venues.name FROM Concerts JOIN Venues ON Concerts.venueID = Venues.venueID")
+        cur = db.execute_query(db_connection=db_connection, query=query2)
+        concerts = cur.fetchall()
+
+        query3 = ("SELECT ticketholderID, CONCAT(firstName, lastName) AS `name` FROM Ticketholders")
+        cur = db.execute_query(db_connection=db_connection, query=query3)
+        ticketholders = cur.fetchall()
+
+        query4 = ("SELECT COUNT(scanned) AS `Attendance` FROM Tickets WHERE scanned = 1")
+        cur = db.execute_query(db_connection=db_connection, query=query4)
+        attendance = cur.fetchall()
+
+        return render_template("Tickets.j2", data=data, concerts=concerts, ticketholders=ticketholders, attendance=attendance)
+
+    elif request.method == 'POST':
+        concertID = request.form["concertID"]
+        ticketholderID = request.form["ticketholderID"]
+        scanned = request.form["scanned"]
+
+        query = ("INSERT INTO Tickets(ticketholderID, concertID, scanned) VALUES (%s, %s, %s)")
+        cur = db.execute_query(db_connection=db_connection, query=query, query_params=(ticketholderID, concertID, scanned))
+        db_connection.commit()
+
+        return redirect('/Tickets')
 
 # Listener
 if __name__ == "__main__":
