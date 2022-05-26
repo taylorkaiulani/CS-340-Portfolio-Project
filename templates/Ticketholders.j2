@@ -2,7 +2,8 @@
 <!-- Adapted from CS340 flask starter app -->
 <head>
 	<h2>CONCERTS UNLIMITED</h2>
-	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+	{% include "Menu.html" %}
 	<script language="JavaScript">
 	function showform(dowhat) {
 		/*
@@ -55,7 +56,6 @@
 </head>
 
 <body onload="browseTicketholders()">
-		<h3>Ticketholders</h3> [ <a href="Index">Home</a> | <a href="Concerts">Concerts</a> | <a href="Artists">Artists</a> | <a href="ArtistPerformances">Artist Performances</a> | <a href="Venues">Venues</a> | <a href="RecordLabels">Record Labels</a> | <b>Ticketholders</b> | <a href="Tickets">Tickets</a> ]
 	<div id="browse">
 		<p><a href="#" onClick="newTicketholder()">Add New</a> </p>
 		<table border="1" cellpadding="5">
