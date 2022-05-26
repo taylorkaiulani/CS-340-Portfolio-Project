@@ -46,6 +46,36 @@ def Concerts():
 
         return redirect("/Concerts")
 
+@app.route('/EditConcert/<int:id>', methods = ['GET', 'POST'])
+def EditConcert(id):
+    if request.method == 'GET':
+        # Get concert info to display
+        query1 = ("SELECT date AS `Date`, Venues.name AS `Venue`, concertID FROM Concerts "
+        + "JOIN Venues ON Venues.venueID = Concerts.venueID "
+        + "WHERE concertID = %s") % (id)
+        cur = db.execute_query(db_connection=db_connection, query=query1)
+        data = cur.fetchall()
+
+        # Get venue info for drop down
+        query2 = "SELECT venueID, name FROM Venues"
+        cur = db.execute_query(db_connection=db_connection, query=query2)
+        venues = cur.fetchall()
+
+        return render_template('EditConcerts.j2', data=data, venues=venues)
+
+    elif request.method == 'POST':
+        # Get form inputs
+        date = request.form['date']
+        venueID = request.form['venueID']
+        concertID = request.form['concertID']
+
+        # Update the database
+        query = "UPDATE Concerts SET date = %s, venueID = %s WHERE concertID = %s"
+        cur = db.execute_query(db_connection=db_connection, query=query, query_params=(date, venueID, concertID))
+        db_connection.commit()
+
+        return redirect('/Concerts')
+
 @app.route('/DeleteConcert/<int:id>')
 def DeleteConcert(id):
     query = "DELETE FROM Concerts WHERE concertID = %s" % (id)

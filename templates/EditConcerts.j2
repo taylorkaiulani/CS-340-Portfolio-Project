@@ -1,0 +1,66 @@
+<html>
+
+<head>
+	<title>Edit Concert</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />    
+</head>
+
+<body>
+    <div id="edit">
+        <h3> You are updating the following concert: </h3>
+
+        <br/>
+
+        <!-- table to display the row being edited -->
+        <table id="currentInfo">
+            <thead>
+                <tr>
+                    {% for key in data[0].keys() %}
+                    {% if key != 'concertID' %}
+                    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for key in data[0].keys() %}
+                    {% if key != 'concertID' %}
+                    <td> {{data[0][key]}} </td>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+
+		<!-- form to edit data in Concerts -->
+		<form id="editConcert" action="/EditConcert/{{data[0].concertID}}" method="POST">
+			<legend><strong>Edit Concert Information</strong></legend>
+			<fieldset>
+
+				<input type="hidden" value="{{data[0].concertID}}" class="form-control" id="concertID" name="concertID" required>
+
+				<label for="date"> Date: </label>
+                <input type="date" class="form-control" name="date" id="date" value="{{data[0].Date}}" required>
+
+				<label for="venueID"> Venue: </label>
+                <select id="venueID" name="venueID">
+                    {% for venue in venues %}
+                    <option value="{{venue.venueID}}"> {{venue.name}} </option>
+                    {% endfor %}
+                </select>
+
+			</fieldset>
+				<button type="submit"> Submit </button>
+        </form>
+
+        <!-- form to redirect to main page if user wants to cancel -->
+        <form action='/Concerts' method='GET'>
+            <button> Cancel </button>
+        </form>
+	</div><!--edit-->
+</body>
+
+</html>
