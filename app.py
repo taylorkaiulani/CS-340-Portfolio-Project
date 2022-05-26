@@ -302,12 +302,15 @@ def Tickets():
         cur = db.execute_query(db_connection=db_connection, query=query3)
         ticketholders = cur.fetchall()
 
-        query4 = ("SELECT COUNT(scanned) AS `Attendance` FROM Tickets WHERE scanned = 1")
+        query4 = ("SELECT COUNT(scanned) AS `Attendance` FROM Tickets "
+            + "JOIN Concerts ON Tickets.concertID = Concerts.concertID WHERE scanned = 1 GROUP BY Tickets.concertID")
         cur = db.execute_query(db_connection=db_connection, query=query4)
         attendance = cur.fetchall()
 
-        query5 = ("SELECT COUNT(*) AS `Tickets Sold` FROM Tickets "
-            + "JOIN Concerts ON Tickets.concertID = Concerts.concertID GROUP BY Tickets.concertID")
+        query5 = ("SELECT COUNT(*) AS `Tickets Sold`, COUNT(IF(scanned=1,1,null)) AS `Attendance`, " 
+            + "CONCAT(Venues.name, ', ', Concerts.date) AS `Concert` FROM Tickets "
+            + "JOIN Concerts ON Tickets.concertID = Concerts.concertID "
+            + "JOIN Venues ON Concerts.venueID = Venues.venueID GROUP BY Tickets.concertID")
         cur = db.execute_query(db_connection=db_connection, query=query5)
         ticketSales = cur.fetchall()
 

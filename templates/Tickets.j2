@@ -90,6 +90,31 @@
                         {% endfor %}
                 {% endif %}
         </table>
+
+        <br/>
+
+        <table border="1" cellpadding="5">
+            <caption><strong> Concert Attendance Report </strong></caption>
+
+            <thead>
+                <tr>
+                    <th> Concert </th>
+                    <th> Tickets Sold </th>
+                    <th> Attendance </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in ticketSales %}
+                <tr>
+                    <td> {{item.Concert}} </td>
+                    <td> {{item['Tickets Sold']}} </td>
+                    <td> {{item.Attendance}} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
 	<p>&nbsp;</p>
 	</div>	<!-- browse -->
 
