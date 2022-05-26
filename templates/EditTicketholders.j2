@@ -1,0 +1,68 @@
+<html>
+
+<head>
+	<title>Edit Ticketholder</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />    
+</head>
+
+<body>
+    <div id="edit">
+        <h3> You are updating the following ticketholder: </h3>
+
+        <br/>
+
+        <!-- table to display the row being edited -->
+        <table id="currentInfo">
+            <thead>
+                <tr>
+                    {% for key in data[0].keys() %}
+                    {% if key != 'ticketholderID' %}
+                    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for key in data[0].keys() %}
+                    {% if key != 'ticketholderID' %}
+                    <td> {{data[0][key]}} </td>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+
+		<!-- form to edit data in Ticketholders -->
+		<form id="editTicketholder" action="/EditTicketholder/{{data[0].ticketholderID}}" method="POST">
+			<legend><strong>Edit Ticketholder Information</strong></legend>
+			<fieldset>
+
+				<input type="hidden" value="{{data[0].ticketholderID}}" class="form-control" id="ticketholderID" name="ticketholderID" required>
+
+				<label for="firstName"> First Name: </label>
+                <input type="text" class="form-control" name="firstName" id="firstName" value="{{data[0]['First Name']}}" required>
+
+                <label for="lastName"> Last Name: </label>
+                <input type="text" class="form-control" name="lastName" id="lastName" value="{{data[0]['Last Name']}}" required>
+
+                <label for="email"> Email: </label>
+                <input type="email" class="form-control" name="email" id="email" value="{{data[0]['Email']}}" required>
+
+                <label for="phone"> Phone Number: </label>
+                <input type="tel" class="form-control" name="phone" id="phone" value="{{data[0]['Phone']}}" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+
+			</fieldset>
+				<button type="submit"> Submit </button>
+        </form>
+
+        <!-- form to redirect to main page if user wants to cancel -->
+        <form action='/Ticketholders' method='GET'>
+            <button> Cancel </button>
+        </form>
+	</div><!--edit-->
+</body>
+
+</html>

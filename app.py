@@ -287,6 +287,31 @@ def Ticketholders():
 
         return redirect('/Ticketholders')
 
+@app.route('/EditTicketholder/<int:id>', methods = ['GET', 'POST'])
+def EditTicketholder(id):
+    if request.method == 'GET':
+        query = ("SELECT ticketholderID, firstName AS `First Name`, lastName AS `Last Name`, email AS `Email`, phone AS `Phone` "
+        + "FROM Ticketholders WHERE ticketholderID = %s") % (id)
+        cur = db.execute_query(db_connection=db_connection, query=query)
+        data = cur.fetchall()
+
+        return render_template('EditTicketholders.j2', data=data)
+
+    elif request.method == 'POST':
+        # Get form inputs
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
+        email = request.form['email']
+        phone = request.form['phone']
+        ticketholderID = request.form['ticketholderID']
+
+        # Update the database
+        query = "UPDATE Ticketholders SET firstName = %s, lastName = %s, email = %s, phone = %s WHERE ticketholderID = %s"
+        cur = db.execute_query(db_connection=db_connection, query=query, query_params=(firstName, lastName, email, phone, ticketholderID))
+        db_connection.commit()
+
+        return redirect('/Ticketholders')
+
 @app.route('/DeleteTicketholder/<int:id>')
 def DeleteTicketholder(id):
     query = "DELETE FROM Ticketholders WHERE ticketholderID = %s" % (id)
