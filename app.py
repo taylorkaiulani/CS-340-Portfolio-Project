@@ -46,6 +46,14 @@ def Concerts():
 
         return redirect("/Concerts")
 
+@app.route('/DeleteConcert/<int:id>')
+def DeleteConcert(id):
+    query = "DELETE FROM Concerts WHERE concertID = %s" % (id)
+    cur = db.execute_query(db_connection=db_connection, query=query)
+    db_connection.commit()
+
+    return redirect('/Concerts')
+
 
 # route for ArtistPerformances page
 @app.route("/ArtistPerformances", methods=["POST", "GET"])
@@ -279,6 +287,14 @@ def Ticketholders():
 
         return redirect('/Ticketholders')
 
+@app.route('/DeleteTicketholder/<int:id>')
+def DeleteTicketholder(id):
+    query = "DELETE FROM Ticketholders WHERE ticketholderID = %s" % (id)
+    cur = db.execute_query(db_connection=db_connection, query=query)
+    db_connection.commit()
+
+    return redirect('/Ticketholders')
+
 
 # routes for Tickets page
 @app.route('/Tickets', methods=['GET', 'POST'])
@@ -302,19 +318,14 @@ def Tickets():
         cur = db.execute_query(db_connection=db_connection, query=query3)
         ticketholders = cur.fetchall()
 
-        query4 = ("SELECT COUNT(scanned) AS `Attendance` FROM Tickets "
-            + "JOIN Concerts ON Tickets.concertID = Concerts.concertID WHERE scanned = 1 GROUP BY Tickets.concertID")
-        cur = db.execute_query(db_connection=db_connection, query=query4)
-        attendance = cur.fetchall()
-
-        query5 = ("SELECT COUNT(*) AS `Tickets Sold`, COUNT(IF(scanned=1,1,null)) AS `Attendance`, " 
+        query4 = ("SELECT COUNT(*) AS `Tickets Sold`, COUNT(IF(scanned=1,1,null)) AS `Attendance`, " 
             + "CONCAT(Venues.name, ', ', Concerts.date) AS `Concert` FROM Tickets "
             + "JOIN Concerts ON Tickets.concertID = Concerts.concertID "
             + "JOIN Venues ON Concerts.venueID = Venues.venueID GROUP BY Tickets.concertID")
-        cur = db.execute_query(db_connection=db_connection, query=query5)
+        cur = db.execute_query(db_connection=db_connection, query=query4)
         ticketSales = cur.fetchall()
 
-        return render_template("Tickets.j2", data=data, concerts=concerts, ticketholders=ticketholders, attendance=attendance, ticketSales=ticketSales)
+        return render_template("Tickets.j2", data=data, concerts=concerts, ticketholders=ticketholders, ticketSales=ticketSales)
 
     elif request.method == 'POST':
         concertID = request.form["concertID"]
@@ -326,6 +337,15 @@ def Tickets():
         db_connection.commit()
 
         return redirect('/Tickets')
+
+@app.route('/DeleteTicket/<int:id>')
+def DeleteTicket(id):
+    query = "DELETE FROM Tickets WHERE ticketID = %s" % (id)
+    cur = db.execute_query(db_connection=db_connection, query=query)
+    db_connection.commit()
+
+    return redirect('/Tickets')
+
 
 # Listener
 if __name__ == "__main__":
