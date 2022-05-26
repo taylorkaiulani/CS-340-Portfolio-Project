@@ -393,6 +393,45 @@ def Tickets():
 
         return redirect('/Tickets')
 
+@app.route('/EditTicket/<int:id>', methods = ['GET', 'POST'])
+def EditTicket(id):
+    if request.method == 'GET':
+        # Get performance info to display
+        query1 = ("SELECT CONCAT(Ticketholders.firstName, ' ', Ticketholders.lastName) AS `Ticketholder`, "
+            + "CONCAT(Venues.name, ', ', Concerts.date) AS `Concert`, ticketID FROM Tickets "
+            + "JOIN Concerts ON Tickets.concertID = Concerts.concertID "
+            + "JOIN Venues ON Venues.venueID = Concerts.venueID "
+            + "JOIN Ticketholders ON Tickets.ticketholderID = Ticketholders.ticketholderID "
+            + "WHERE ticketID = %s") % (id)
+        cur = db.execute_query(db_connection=db_connection, query=query1)
+        data = cur.fetchall()
+
+        # Get artist info for drop down
+        query2 = ("SELECT ticketholderID, CONCAT(firstName, ' ', lastName) AS `name` FROM Ticketholders")
+        cur = db.execute_query(db_connection=db_connection, query=query2)
+        ticketholders = cur.fetchall()
+
+        # Get concert info for drop down
+        query3 = "SELECT concertID, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID"
+        cur = db.execute_query(db_connection=db_connection, query=query3)
+        concerts = cur.fetchall()
+
+        return render_template('EditTickets.j2', data=data, ticketholders=ticketholders, concerts=concerts)
+
+    elif request.method == 'POST':
+        # Get form inputs
+        ticketID = request.form['ticketID']
+        concertID = request.form['concertID']
+        ticketholderID = request.form['ticketholderID']
+        scanned = request.form['scanned']
+
+        # Update the database
+        query = "UPDATE Tickets SET concertID = %s, ticketholderID = %s, scanned = %s WHERE ticketID = %s"
+        cur = db.execute_query(db_connection=db_connection, query=query, query_params=(concertID, ticketholderID, scanned, ticketID))
+        db_connection.commit()
+
+        return redirect('/Tickets')
+
 @app.route('/DeleteTicket/<int:id>')
 def DeleteTicket(id):
     query = "DELETE FROM Tickets WHERE ticketID = %s" % (id)

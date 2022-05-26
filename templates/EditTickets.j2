@@ -1,0 +1,76 @@
+<html>
+
+<head>
+	<title>Edit Ticket</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />    
+</head>
+
+<body>
+    <div id="edit">
+        <h3> You are updating the following ticket: </h3>
+
+        <br/>
+
+        <!-- table to display the row being edited -->
+        <table id="currentInfo">
+            <thead>
+                <tr>
+                    {% for key in data[0].keys() %}
+                    {% if key != 'ticketID' %}
+                    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for key in data[0].keys() %}
+                    {% if key != 'ticketID' %}
+                    <td> {{data[0][key]}} </td>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+
+		<!-- form to edit data in Tickets -->
+		<form id="editTicket" action="/EditTicket/{{data[0].ticketID}}" method="POST">
+			<legend><strong>Edit Ticket Information</strong></legend>
+			<fieldset>
+
+				<input type="hidden" value="{{data[0].ticketID}}" class="form-control" id="ticketID" name="ticketID" required>
+
+				<label for="ticketholderID"> Ticketholder: </label>
+                <select name="ticketholderID" id="ticketholderID">
+                    {% for ticketholder in ticketholders %}
+					<option value="{{ticketholder.ticketholderID}}"> {{ticketholder.name}} </option>
+					{% endfor %}
+                </select>
+
+				<label for="concertID"> Concert: </label>
+				<select name="concertID" id="concertID">
+					{% for concert in concerts %}
+					<option value="{{concert.concertID}}"> {{concert.venue}}, {{concert.date}} </option>
+					{% endfor %}
+				</select>
+
+                <label for="scanned"> Scanned? </label>
+                <select id="scanned" name="scanned">
+                    <option value=0 selected> No </option>
+                    <option value=1> Yes </option>
+                </select>
+
+			</fieldset>
+				<button type="submit"> Submit </button>
+        </form>
+
+        <!-- form to redirect to main page if user wants to cancel -->
+        <form action='/Tickets' method='GET'>
+            <button> Cancel </button>
+        </form>
+	</div><!--edit-->
+</body>
+
+</html>
