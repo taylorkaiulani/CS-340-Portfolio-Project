@@ -42,7 +42,6 @@ def Concerts():
 
         query = "INSERT INTO Concerts (date, venueID) VALUES (%s, %s)"
         cur = db.execute_query(db_connection=db_connection, query=query, query_params=(date, venueID))
-        db_connection.commit()
 
         return redirect("/Concerts")
 
@@ -72,15 +71,13 @@ def EditConcert(id):
         # Update the database
         query = "UPDATE Concerts SET date = %s, venueID = %s WHERE concertID = %s"
         cur = db.execute_query(db_connection=db_connection, query=query, query_params=(date, venueID, concertID))
-        db_connection.commit()
 
         return redirect('/Concerts')
 
 @app.route('/DeleteConcert/<int:id>')
 def DeleteConcert(id):
     query = "DELETE FROM Concerts WHERE concertID = %s" % (id)
-    cur = db.execute_query(db_connection=db_connection, query=query)
-    db_connection.commit()
+    db.execute_query(db_connection=db_connection, query=query)
 
     return redirect('/Concerts')
 
@@ -99,7 +96,6 @@ def ArtistPerformances():
             query = "INSERT INTO Concert_Artists (concertID, artistID) VALUES (%s, %s)"
             # Update the database with new entry
             cur = db.execute_query(db_connection=db_connection, query=query, query_params=(concertID, artistID))
-            db_connection.commit()
 
             # redirect back to ArtistPerformances page
             return redirect("/ArtistPerformances")
@@ -156,15 +152,13 @@ def EditArtistPerformance(id):
         # Update the database
         query = "UPDATE Concert_Artists SET concertID = %s, artistID = %s WHERE concert_artistID = %s"
         cur = db.execute_query(db_connection=db_connection, query=query, query_params=(concertID, artistID, concert_artistID))
-        db_connection.commit()
 
         return redirect('/ArtistPerformances')
 
 @app.route('/DeletePerformance/<int:id>')
 def DeleteArtistPerformance(id):
     query = "DELETE FROM Concert_Artists WHERE concert_artistID = %s" % (id)
-    cur = db.execute_query(db_connection=db_connection, query=query)
-    db_connection.commit()
+    db.execute_query(db_connection=db_connection, query=query)
 
     return redirect('/ArtistPerformances')
 
@@ -186,7 +180,6 @@ def Venues():
             query = "INSERT INTO Venues(name, address, city, state, capacity) VALUES (%s, %s, %s, %s, %s);"
             # Update the database with new entry
             cur = db.execute_query(db_connection=db_connection, query=query, query_params=(venue, address, city, state, capacity))
-            db_connection.commit()
 
             # redirect back to venues page
             return redirect("/Venues")
@@ -205,8 +198,7 @@ def Venues():
 @app.route('/DeleteVenue/<int:id>')
 def delete_venues(id):
     query = "DELETE FROM Venues WHERE venueID = %s" % (id)
-    cur = db.execute_query(db_connection=db_connection, query=query)
-    db_connection.commit()
+    db.execute_query(db_connection=db_connection, query=query)
 
     return redirect('/Venues')
 
@@ -225,7 +217,6 @@ def Artists():
             query = "INSERT INTO Artists(name, recordLabelID) VALUES (%s, %s)"
             # Update the database with new entry
             db.execute_query(db_connection=db_connection, query=query, query_params=(artist, recordLabelID))
-            db_connection.commit()
 
             # redirect back to artists page
             return redirect("/Artists")
@@ -249,8 +240,7 @@ def Artists():
 @app.route('/DeleteArtist/<int:id>')
 def delete_artists(id):
     query = "DELETE FROM Artists WHERE artistID = %s" % (id)
-    cur = db.execute_query(db_connection=db_connection, query=query)
-    db_connection.commit()
+    db.execute_query(db_connection=db_connection, query=query)
 
     return redirect('/Artists')
 
@@ -268,7 +258,6 @@ def RecordLabels():
             query = "INSERT INTO `Record Labels`(name) VALUES (%s);"
             # Update the database with new entry
             db.execute_query(db_connection=db_connection, query=query, query_params=(recordlabel,))
-            db_connection.commit()
  
             # redirect back to Record Labels page
             return redirect("/RecordLabels")
@@ -287,8 +276,7 @@ def RecordLabels():
 @app.route('/DeleteRecordLabel/<int:id>')
 def delete_recordlabels(id):
     query = "DELETE FROM `Record Labels` WHERE recordLabelID = %s" % (id)
-    cur = db.execute_query(db_connection=db_connection, query=query)
-    db_connection.commit()
+    db.execute_query(db_connection=db_connection, query=query)
 
     return redirect('/RecordLabels')
 
@@ -313,7 +301,7 @@ def Ticketholders():
 
         query = "INSERT INTO Ticketholders(firstName, lastName, email, phone) VALUES (%s, %s, %s, %s)"
         cur = db.execute_query(db_connection=db_connection, query=query, query_params=(firstName, lastName, email, phone))
-        db_connection.commit()
+
 
         return redirect('/Ticketholders')
 
@@ -338,15 +326,13 @@ def EditTicketholder(id):
         # Update the database
         query = "UPDATE Ticketholders SET firstName = %s, lastName = %s, email = %s, phone = %s WHERE ticketholderID = %s"
         cur = db.execute_query(db_connection=db_connection, query=query, query_params=(firstName, lastName, email, phone, ticketholderID))
-        db_connection.commit()
 
         return redirect('/Ticketholders')
 
 @app.route('/DeleteTicketholder/<int:id>')
 def DeleteTicketholder(id):
     query = "DELETE FROM Ticketholders WHERE ticketholderID = %s" % (id)
-    cur = db.execute_query(db_connection=db_connection, query=query)
-    db_connection.commit()
+    db.execute_query(db_connection=db_connection, query=query)
 
     return redirect('/Ticketholders')
 
@@ -389,7 +375,6 @@ def Tickets():
 
         query = ("INSERT INTO Tickets(ticketholderID, concertID, scanned) VALUES (%s, %s, %s)")
         cur = db.execute_query(db_connection=db_connection, query=query, query_params=(ticketholderID, concertID, scanned))
-        db_connection.commit()
 
         return redirect('/Tickets')
 
@@ -428,15 +413,13 @@ def EditTicket(id):
         # Update the database
         query = "UPDATE Tickets SET concertID = %s, ticketholderID = %s, scanned = %s WHERE ticketID = %s"
         cur = db.execute_query(db_connection=db_connection, query=query, query_params=(concertID, ticketholderID, scanned, ticketID))
-        db_connection.commit()
 
         return redirect('/Tickets')
 
 @app.route('/DeleteTicket/<int:id>')
 def DeleteTicket(id):
     query = "DELETE FROM Tickets WHERE ticketID = %s" % (id)
-    cur = db.execute_query(db_connection=db_connection, query=query)
-    db_connection.commit()
+    db.execute_query(db_connection=db_connection, query=query)
 
     return redirect('/Tickets')
 
