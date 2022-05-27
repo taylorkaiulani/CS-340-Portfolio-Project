@@ -7,16 +7,16 @@
 -- Dropdowns
 -- -----------------------------------------------------
 -- Artist ID dropdown
-SELECT artistID FROM Artists;
+SELECT artistID, name FROM Artists;
 
 -- Concert ID dropdown
-SELECT concertID FROM Concerts;
+SELECT concertID, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID;
 
 -- Vanue ID dropdown
-SELECT venueID FROM Venues;
+SELECT venueID, name FROM Venues;
 
 -- Ticketholder ID dropdown
-SELECT ticketholderID FROM Ticketholders;
+SELECT ticketholderID, CONCAT(firstName, ' ', lastName) AS `name` FROM Ticketholders;
 
 -- Record label dropdown (with NULL)
 (SELECT name FROM Artists
@@ -51,10 +51,11 @@ WHERE artistID = :artistID_input;
 -- Concert_Artists page
 -- -----------------------------------------------------
 -- Get list of Concert_Artists
-SELECT concert_artistID AS `Concert_Artist ID`, Concert_Artists.concertID AS `Concert ID`, 
-Concerts.date AS Date, Concert_Artists.artistID AS `Artist ID`, Artists.name AS `Artist` FROM Concert_Artists
-JOIN Artists ON Artists.artistID = Concert_Artists.artistID
-JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID;
+SELECT concert_artistID AS `ID`, Artists.name AS `Artist`, Concerts.date AS Date, 
+Venues.name AS `Venue` FROM Concert_Artists 
+JOIN Artists ON Artists.artistID = Concert_Artists.artistID 
+JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID 
+JOIN Venues ON Venues.venueID = Concerts.venueID ORDER BY concert_artistID;
 
 -- Add Concert_Artist
 INSERT INTO Concert_Artists (concertID, artistID) 
@@ -73,7 +74,7 @@ WHERE concert_artistID = :concert_artistID_input;
 -- Concerts page
 -- -----------------------------------------------------
 -- Get list of concerts
-SELECT Concerts.concertID AS `ID`, date AS `Date`, Venues.name AS `Venue` FROM Concerts
+SELECT Concerts.concertID AS `Concert ID`, date AS `Date`, Venues.name AS `Venue` FROM Concerts
 JOIN Venues ON Venues.venueID = Concerts.venueID;
 
 -- Add concert
@@ -112,7 +113,7 @@ WHERE recordLabelID = :recordLabelID_input;
 -- Ticketholders page
 -- -----------------------------------------------------
 -- Get list of venues
-SELECT ticketholderID AS `ID`, firstName AS `First Name`, lastName AS `Last Name`, email AS `Email`, 
+SELECT ticketholderID AS `Ticketholder ID`, firstName AS `First Name`, lastName AS `Last Name`, email AS `Email`, 
 phone AS `Phone` FROM Ticketholders;
 
 -- Add venue
@@ -132,9 +133,13 @@ WHERE ticketholderID = :ticketholderID_input;
 -- Tickets page
 -- -----------------------------------------------------
 -- Get list of tickets
-SELECT ticketID AS `Ticket ID`, email AS `Ticketholder Email`, Concerts.date AS `Date`, scanned as `Scanned` FROM Tickets
-JOIN Ticketholders ON Ticketholders.ticketholderID = Tickets.ticketholderID
-JOIN Concerts ON Concerts.concertID = Tickets.concertID;
+SELECT ticketID AS `Ticket ID`, Venues.name AS `Venue`, Concerts.date AS `Date`, 
+CONCAT(Ticketholders.firstName, ' ', Ticketholders.lastName) AS `Ticketholder Name`, 
+scanned AS `Scanned?` FROM Tickets 
+JOIN Concerts ON Tickets.concertID = Concerts.concertID 
+JOIN Venues ON Concerts.venueID = Venues.venueID 
+JOIN Ticketholders ON Tickets.ticketholderID = Ticketholders.ticketholderID 
+ORDER BY Date ASC;
 
 -- Add ticket
 INSERT INTO Tickets(ticketholderID, concertID, scanned) 
