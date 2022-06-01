@@ -383,7 +383,8 @@ def EditTicket(id):
     if request.method == 'GET':
         # Get performance info to display
         query1 = ("SELECT CONCAT(Ticketholders.firstName, ' ', Ticketholders.lastName) AS `Ticketholder`, "
-            + "CONCAT(Venues.name, ', ', Concerts.date) AS `Concert`, ticketID FROM Tickets "
+            + "CONCAT(Venues.name, ', ', Concerts.date) AS `Concert`, scanned AS `Scanned?`, ticketID, Ticketholders.ticketholderID, Concerts.concertID "
+            + "FROM Tickets "
             + "JOIN Concerts ON Tickets.concertID = Concerts.concertID "
             + "JOIN Venues ON Venues.venueID = Concerts.venueID "
             + "JOIN Ticketholders ON Tickets.ticketholderID = Ticketholders.ticketholderID "

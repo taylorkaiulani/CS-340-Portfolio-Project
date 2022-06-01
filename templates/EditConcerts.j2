@@ -48,12 +48,15 @@
 				<label for="venueID"> Venue: </label>
                 <select id="venueID" name="venueID">
                     {% for venue in venues %}
-                    <option value="{{venue.venueID}}"> {{venue.name}} </option>
+                    <option value="{{venue.venueID}}" {% if data[0].Venue == venue.name %} selected {% endif %}> 
+                        {{venue.name}} 
+                    </option>
                     {% endfor %}
                 </select>
 
 			</fieldset>
-				<button type="submit"> Submit </button>
+			<br />
+            <button type="submit"> Submit </button>
         </form>
 
         <!-- form to redirect to main page if user wants to cancel -->

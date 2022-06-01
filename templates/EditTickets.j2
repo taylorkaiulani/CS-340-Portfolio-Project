@@ -16,8 +16,8 @@
             <thead>
                 <tr>
                     {% for key in data[0].keys() %}
-                    {% if key != 'ticketID' %}
-                    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                    {% if key != 'ticketID' and key != "ticketholderID" and key != "concertID" %}
+                        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
                     {% endif %}
                     {% endfor %}
                 </tr>
@@ -25,8 +25,16 @@
             <tbody>
                 <tr>
                     {% for key in data[0].keys() %}
-                    {% if key != 'ticketID' %}
-                    <td> {{data[0][key]}} </td>
+                    {% if key != 'ticketID' and key != "ticketholderID" and key != "concertID" %}
+                        {% if key == 'Scanned?' %}
+							{% if data[0][key] == 0 %}
+								<td> No </td>
+							{% else %}
+								<td> Yes </td>
+							{% endif %}
+						{% else %}
+                            <td> {{data[0][key]}} </td>
+                        {% endif %}
                     {% endif %}
                     {% endfor %}
                 </tr>
@@ -45,21 +53,25 @@
 				<label for="ticketholderID"> Ticketholder: </label>
                 <select name="ticketholderID" id="ticketholderID">
                     {% for ticketholder in ticketholders %}
-					<option value="{{ticketholder.ticketholderID}}"> {{ticketholder.name}} </option>
+					<option value="{{ticketholder.ticketholderID}}" {% if data[0].ticketholderID == ticketholder.ticketholderID %} selected {% endif %}> 
+                        {{ticketholder.name}} 
+                    </option>
 					{% endfor %}
                 </select>
 
 				<label for="concertID"> Concert: </label>
 				<select name="concertID" id="concertID">
 					{% for concert in concerts %}
-					<option value="{{concert.concertID}}"> {{concert.venue}}, {{concert.date}} </option>
+					<option value="{{concert.concertID}}" {% if data[0].concertID == concert.concertID %} selected {% endif %}> 
+                        {{concert.venue}}, {{concert.date}} 
+                    </option>
 					{% endfor %}
 				</select>
 
                 <label for="scanned"> Scanned? </label>
                 <select id="scanned" name="scanned">
-                    <option value=0 selected> No </option>
-                    <option value=1> Yes </option>
+                    <option value=0 {% if data[0]['Scanned?'] == 0 %} selected {% endif %}> No </option>
+                    <option value=1 {% if data[0]['Scanned?'] == 1 %} selected {% endif %}> Yes </option>
                 </select>
 
 			</fieldset>

@@ -45,19 +45,24 @@
 				<label for="artistName"> Artist: </label>
                 <select name="artistID" id="artistID">
                     {% for artist in Artists %}
-					<option value="{{artist.artistID}}"> {{artist.name}} </option>
+					<option value="{{artist.artistID}}" {% if data[0].Artist == artist.name %} selected {% endif %}> 
+                        {{artist.name}} 
+                    </option>
 					{% endfor %}
                 </select>
 
 				<label for="concert"> Concert ID: </label>
 				<select name="concertID" id="concertID">
 					{% for concert in Concerts %}
-					<option value="{{concert.concertID}}"> {{concert.venue}}, {{concert.date}} </option>
+					<option value="{{concert.concertID}}" {% if data[0].Venue == concert.venue and data[0].Date == concert.date %} selected {% endif %}> 
+                        {{concert.venue}}, {{concert.date}} 
+                    </option>
 					{% endfor %}
 				</select>
 
 			</fieldset>
-				<button type="submit"> Submit </button>
+            <br />
+			<button type="submit"> Submit </button>
         </form>
 
         <!-- form to redirect to main page if user wants to cancel -->
