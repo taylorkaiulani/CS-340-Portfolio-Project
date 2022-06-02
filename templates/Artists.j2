@@ -3,6 +3,7 @@
 <head>
 	<h2>CONCERTS UNLIMITED</h2>
 	<link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+	<script src="https://kit.fontawesome.com/1f94aa04ee.js" crossorigin="anonymous"></script>
 	<nav>
 		<ul>
 			<li><a href="Index">Home</a></li>
@@ -95,7 +96,7 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="DeleteArtist/{{item['ID']}}" class="btn btn-default">Delete</a></td>
+						    <td><a href="DeleteArtist/{{item['ID']}}"><i class="fa-solid fa-trash-can"></i></a></td>
 
 					    </tr>
                         {% endfor %}

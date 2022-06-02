@@ -3,6 +3,7 @@
 <head>
 	<h2>CONCERTS UNLIMITED</h2>
 	<link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+	<script src="https://kit.fontawesome.com/1f94aa04ee.js" crossorigin="anonymous"></script>
 	<nav>
 		<ul>
 			<li><a href="Index">Home</a></li>
@@ -96,8 +97,8 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-                            <td><a href="EditTicketholder/{{item['Ticketholder ID']}}" class="btn btn-default">Edit</a></td>
-                            <td><a href="DeleteTicketholder/{{item['Ticketholder ID']}}" class="btn btn-default">Delete</a></td>
+                            <td><a href="EditTicketholder/{{item['Ticketholder ID']}}"><i class="fa-solid fa-square-pen"></i></a></td>
+                            <td><a href="DeleteTicketholder/{{item['Ticketholder ID']}}"><i class="fa-solid fa-trash-can"></i></a></td>
 					    </tr>
                         {% endfor %}
                 {% endif %}
@@ -111,13 +112,13 @@
 			<legend><strong>Add Ticketholder</strong></legend>
 			<fieldset>
 				<label for="firstName"> First Name: </label>
-                <input type="text" class="form-control" name="firstName" id="firstName" placeholder="" required>
+                <input type="text" class="form-control" name="firstName" id="firstName" placeholder="" max="45" required>
 
                 <label for="lastName"> Last Name: </label>
-                <input type="text" class="form-control" name="lastName" id="lastName" placeholder="" required>
+                <input type="text" class="form-control" name="lastName" id="lastName" placeholder="" max="45" required>
 
                 <label for="email"> Email: </label>
-                <input type="email" class="form-control" name="email" id="email" placeholder="" required>
+                <input type="email" class="form-control" name="email" id="email" placeholder="" max="45" required>
 
                 <label for="phone"> Phone Number: </label>
                 <input type="tel" class="form-control" name="phone" id="phone" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>	

@@ -43,13 +43,13 @@
 				<input type="hidden" value="{{data[0].ticketholderID}}" class="form-control" id="ticketholderID" name="ticketholderID" required>
 
 				<label for="firstName"> First Name: </label>
-                <input type="text" class="form-control" name="firstName" id="firstName" value="{{data[0]['First Name']}}" required>
+                <input type="text" class="form-control" name="firstName" id="firstName" value="{{data[0]['First Name']}}" max="45" required>
 
                 <label for="lastName"> Last Name: </label>
-                <input type="text" class="form-control" name="lastName" id="lastName" value="{{data[0]['Last Name']}}" required>
+                <input type="text" class="form-control" name="lastName" id="lastName" value="{{data[0]['Last Name']}}" max="45" required>
 
                 <label for="email"> Email: </label>
-                <input type="email" class="form-control" name="email" id="email" value="{{data[0]['Email']}}" required>
+                <input type="email" class="form-control" name="email" id="email" value="{{data[0]['Email']}}" max="45" required>
 
                 <label for="phone"> Phone Number: </label>
                 <input type="tel" class="form-control" name="phone" id="phone" value="{{data[0]['Phone']}}" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
