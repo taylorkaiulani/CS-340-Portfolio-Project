@@ -1,8 +1,9 @@
 <html>
 <!-- Adapted from the CS 340 people.html UI design -->
 <head>
-	<h2>CONCERTS UNLIMITED</h2>
+	<h1>CONCERTS UNLIMITED</h1>
 	<link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" href="https://use.typekit.net/nvz7lyg.css">
 	<script src="https://kit.fontawesome.com/1f94aa04ee.js" crossorigin="anonymous"></script>
 	<nav>
 		<ul>
@@ -69,7 +70,7 @@
 
 <body onload="browseArtistPerformance()">
 	<div id="browse">
-		<p><a href="#" onClick="newArtistPerformance()">Add New</a> </p>
+		<p><a href="#" onClick="newArtistPerformance()" class="add-link">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py -->
             {% if data %}

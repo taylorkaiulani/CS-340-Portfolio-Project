@@ -1,6 +1,103 @@
 /* CSS Document */
+html{
+  background-image: linear-gradient(rgb(108, 108, 108), white);
+  font-family: termina, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+h1{
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: ethnocentric, sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+a.add-link{
+  margin-left: 5%;
+  color:rgb(59, 88, 221);
+}
+
+a.add-link:visited{
+  color: rgb(59, 88, 221);
+}
+
+a.back{
+  color: rgb(59, 88, 221);
+}
+
+a.back:visited{
+  color: rgb(59, 88, 221);
+}
+
+i{
+  color: rgb(59, 88, 221);
+}
+
 table {
-    align-items: center;
+  /* table-layout: fixed; */
+  align-items: center;
+
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3%;
+  width: 90%;
+
+  border-collapse: collapse;
+  border: solid white 4px;
+  box-shadow: 7px 7px 1px rgb(59, 88, 221);
+  background-color: rgb(187, 187, 187);
+
+  color: black;
+}
+
+tbody{
+  text-align: center;
+}
+
+fieldset{
+  font-family: termina, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: small;
+}
+
+input{
+  font-family: termina, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: small;
+}
+
+select{
+  font-family: termina, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: small;
+}
+
+label{
+  margin-left: 1%;
+}
+
+button{
+  padding: 0.5%;
+  margin-top: 0.25%;
+  margin-bottom: 0.25%;
+  
+  font-family: termina, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: small;
+
+  background-color: rgb(59, 88, 221);
+  color: white;
+  border-radius: 5px;
 }
 
 ul {
@@ -36,3 +133,4 @@ li a:active,
 .active {
   background-color: rgb(59, 88, 221);
   }
+
