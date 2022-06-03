@@ -1,103 +1,43 @@
 /* CSS Document */
-html{
-  background-image: linear-gradient(rgb(108, 108, 108), white);
-  font-family: termina, sans-serif;
-  font-weight: 500;
-  font-style: normal;
+* {
+  font-family: Helvetica;
 }
 
-h1{
-  margin-top: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-family: ethnocentric, sans-serif;
-  font-weight: 700;
-  font-style: normal;
+img {
+  opacity: 0.2;
 }
 
-a.add-link{
-  margin-left: 5%;
-  color:rgb(59, 88, 221);
+.image {
+  background-image: url("../img/concert-mod.jpg");
 }
 
-a.add-link:visited{
-  color: rgb(59, 88, 221);
+body {
+  background: #fefef4;
 }
 
-a.back{
-  color: rgb(59, 88, 221);
-}
+tr:hover td {
+  background-color: rgb(226, 228, 240);
+  }
 
-a.back:visited{
-  color: rgb(59, 88, 221);
+h2 {
+  padding-top: 15px;
+  padding-bottom: 0px;
+  font-family: Helvetica;
+  font: bold;
 }
-
-i{
-  color: rgb(59, 88, 221);
-}
-
 table {
-  /* table-layout: fixed; */
-  align-items: center;
-
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 3%;
-  width: 90%;
-
-  border-collapse: collapse;
-  border: solid white 4px;
-  box-shadow: 7px 7px 1px rgb(59, 88, 221);
-  background-color: rgb(187, 187, 187);
-
-  color: black;
+    align-items: center;
+    font-family: Helvetica;
+    outline:none;
+    border: none;
+    border-collapse: collapse;
 }
 
-tbody{
-  text-align: center;
-}
-
-fieldset{
-  font-family: termina, sans-serif;
-  font-weight: 300;
-  font-style: normal;
-  font-size: small;
-}
-
-input{
-  font-family: termina, sans-serif;
-  font-weight: 300;
-  font-style: normal;
-  font-size: small;
-}
-
-select{
-  font-family: termina, sans-serif;
-  font-weight: 300;
-  font-style: normal;
-  font-size: small;
-}
-
-label{
-  margin-left: 1%;
-}
-
-button{
-  padding: 0.5%;
-  margin-top: 0.25%;
-  margin-bottom: 0.25%;
-  
-  font-family: termina, sans-serif;
-  font-weight: 300;
-  font-style: normal;
-  font-size: small;
-
-  background-color: rgb(59, 88, 221);
-  color: white;
-  border-radius: 5px;
+th, td {
+  padding: 8px;
+  text-align: left;
+  border: none;
+  border-bottom: 1px solid rgb(180, 180, 180);
 }
 
 ul {
@@ -106,31 +46,36 @@ ul {
   padding: 0;
   overflow: hidden;
   background-color: #333;
+  font-family: Helvetica;
 }
 
 li {
   float: left;
+  font-family: Helvetica;
 }
 
 li a {
   display: block;
-  color: white;
+  color: #fefef4;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  font-family: Helvetica;
 }
 
 /* Change the link color to #111 (black) on hover */
 li a:hover {
   background-color: rgb(108, 108, 108);
+  font-family: Helvetica;
 }
   
   li a:hover:not(.active) {
     background-color: rgb(108, 108, 108);
+    font-family: Helvetica;
   }
 
 li a:active,
 .active {
   background-color: rgb(59, 88, 221);
+  font-family: Helvetica;
   }
-
