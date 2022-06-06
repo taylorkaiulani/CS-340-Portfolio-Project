@@ -5,18 +5,6 @@
 	<link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" href="https://use.typekit.net/nvz7lyg.css">
 	<script src="https://kit.fontawesome.com/1f94aa04ee.js" crossorigin="anonymous"></script>
-	<nav>
-		<ul>
-			<li><a href="Index">Home</a></li>
-			<li><a href="Concerts">Concerts</a></li>
-			<li><a href="Artists">Artists</a></li>
-			<li class="active"><a href="ArtistPerformances">Artist Performances</a></li>
-			<li><a href="Venues">Venues</a></li>
-			<li><a href="RecordLabels">Record Labels</a></li>
-			<li><a href="Ticketholders">Ticketholders</a></li>
-			<li><a href="Tickets">Tickets</a></li>
-		</ul>
-	</nav>	
 	<script language="JavaScript">
 	function showform(dowhat) {
 		/*
@@ -68,7 +56,26 @@
 	</script>
 </head>
 
-<body onload="browseArtistPerformance()">
+<body onload="browseArtistPerformance()" class="artistperformances">
+	{% include "Menu.html" %}
+			<p>		
+			<form id="searchArtistPerformance" action="/ArtistPerformances"method="get">
+				<fieldset>
+					<!-- placeholder shows ghost text, required forces an input,	pattern forces input adherence -->
+					<a><b>Search</b></a>&nbsp;&nbsp;&nbsp;
+					<label for="artist"> Artist: </label>
+					<input type="text" name="artist" id="artist">
+					<label for="date"> Date: </label>
+					<input type="date" name="date" id="date">
+					<label for="venue"> Venue: </label> 
+					<input type="text" name="venue" id="venue">
+					<!-- Create 'Search' and 'Cancel' buttons -->
+					<input type="submit" value="Search" name="Search_ArtistPerformance"
+					class="btn btn-primary" style="margin:.5rem;">
+					<input class="btn" type="button" value="Reset" 	name="Reset"onClick="window.location.href='/ArtistPerformances'">
+				</fieldset>
+			</form>
+		</p>
 	<div id="browse">
 		<p><a href="#" onClick="newArtistPerformance()" class="add-link">Add New</a> </p>
 		<table border="1" cellpadding="5">
@@ -84,6 +91,7 @@
 
                         <!-- End of this for loop -->
                         {% endfor %}
+						<th></th><th></th>
                     </tr>
 
 				<tbody>
@@ -107,11 +115,12 @@
 	<p>&nbsp;</p>
 	</div>	<!-- browse -->
 
-	<div id="insert">
+	<div id="insert" class="insert">
 		<!-- form to INSERT new data-->
 		<form id="insertArtistPerformance" action="/ArtistPerformances" method="post">
-			<legend><strong>Add Artist Performance</strong></legend>
+			
 			<fieldset>
+				<legend><strong>Add Artist Performance</strong></legend>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
 				<label for="artist">Artist:</label>
                 <select name="artistID" id="artistID">

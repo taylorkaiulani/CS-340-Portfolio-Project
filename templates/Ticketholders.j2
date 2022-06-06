@@ -5,18 +5,6 @@
 	<link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" href="https://use.typekit.net/nvz7lyg.css">
 	<script src="https://kit.fontawesome.com/1f94aa04ee.js" crossorigin="anonymous"></script>
-	<nav>
-		<ul>
-			<li><a href="Index">Home</a></li>
-			<li><a href="Concerts">Concerts</a></li>
-			<li><a href="Artists">Artists</a></li>
-			<li><a href="ArtistPerformances">Artist Performances</a></li>
-			<li><a href="Venues">Venues</a></li>
-			<li><a href="RecordLabels">Record Labels</a></li>
-			<li class="active"><a href="Ticketholders">Ticketholders</a></li>
-			<li><a href="Tickets">Tickets</a></li>
-		</ul>
-	</nav>
 	<script language="JavaScript">
 	function showform(dowhat) {
 		/*
@@ -68,7 +56,8 @@
 	</script>
 </head>
 
-<body onload="browseTicketholders()">
+<body onload="browseTicketholders()" class="ticketholders">
+	{% include "Menu.html" %}
 	<div id="browse">
 		<p><a href="#" onClick="newTicketholder()" class="add-link">Add New</a> </p>
 		<table border="1" cellpadding="5">
@@ -84,6 +73,7 @@
 
                         <!-- End of this for loop -->
                         {% endfor %}
+						<th></th><th></th>
                     </tr>
 
 				<tbody>
@@ -107,11 +97,11 @@
 	<p>&nbsp;</p>
 	</div>	<!-- browse -->
 
-	<div id="insert">
+	<div id="insert" class="insert">
 		<!-- form to INSERT new data-->
 		<form id="insertTicketholders" action="/Ticketholders" method="POST">
-			<legend><strong>Add Ticketholder</strong></legend>
 			<fieldset>
+				<legend><strong>Add Ticketholder</strong></legend>
 				<label for="firstName"> First Name: </label>
                 <input type="text" class="form-control" name="firstName" id="firstName" placeholder="" max="45" required>
 
