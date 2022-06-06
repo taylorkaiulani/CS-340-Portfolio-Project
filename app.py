@@ -96,29 +96,41 @@ def ArtistPerformances():
             query = "INSERT INTO Concert_Artists (concertID, artistID) VALUES (%s, %s)"
             # Update the database with new entry
             cur = db.execute_query(db_connection=db_connection, query=query, query_params=(concertID, artistID))
-
             # redirect back to ArtistPerformances page
             return redirect("/ArtistPerformances")
 
     # Grab ArtistPerformances data so we send it to our template to display
     if request.method == "GET":
-        # mySQL query to grab all the Artist Performances in the Concert_Artists table
-        query = "SELECT concert_artistID AS `ID`, Artists.name AS `Artist`, Concerts.date AS Date, Venues.name AS `Venue` FROM Concert_Artists JOIN Artists ON Artists.artistID = Concert_Artists.artistID JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID JOIN Venues ON Venues.venueID = Concerts.venueID ORDER BY concert_artistID"
-        cur = db.execute_query(db_connection=db_connection, query=query)
-        data = cur.fetchall()
-
-        # mySQL query to grab artist data for our dropdown
-        query2 = "SELECT artistID, name FROM Artists"
-        cur = db.execute_query(db_connection=db_connection, query=query2)
-        artists = cur.fetchall()
-
-        # Get concert info for drop down
-        query3 = "SELECT concertID, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID"
-        cur = db.execute_query(db_connection=db_connection, query=query3)
-        concerts = cur.fetchall()
-
-        # render page passing our query data
-        return render_template("ArtistPerformances.j2", data=data, Artists=artists, Concerts=concerts)
+        if request.args.get("Search_ArtistPerformance"):
+            print('search')
+            # grab user form inputs
+            artist = request.args["artist"]
+            date = request.args["date"]
+            venue = request.args["venue"]
+            # concert = request.args["concert"]
+            # mySQL query to grab search criteria for Artist Performances in the Concert_Artists table
+            query = "SELECT concert_artistID AS `ID`, Artists.name AS `Artist`, Concerts.date AS Date, Venues.name AS `Venue` FROM Concert_Artists JOIN Artists ON Artists.artistID = Concert_Artists.artistID JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID JOIN Venues ON Venues.venueID = Concerts.venueID WHERE Artists.name LIKE %s AND Concerts.date LIKE %s AND Venues.name LIKE %s"
+            print(artist,date,venue)
+            cur = db.execute_query(db_connection=db_connection, query=query, query_params=('%'+artist+'%', '%'+date+'%', '%'+venue+'%'))
+            data = cur.fetchall()
+            # render page passing our query data
+            return render_template("ArtistPerformances.j2", data=data)
+        elif not request.args.get("Search_ArtistPerformance"):
+            print('notsearch')
+            # mySQL query to grab all the Artist Performances in the Concert_Artists table
+            query = "SELECT concert_artistID AS `ID`, Artists.name AS `Artist`, Concerts.date AS Date, Venues.name AS `Venue` FROM Concert_Artists JOIN Artists ON Artists.artistID = Concert_Artists.artistID JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID JOIN Venues ON Venues.venueID = Concerts.venueID ORDER BY concert_artistID"
+            cur = db.execute_query(db_connection=db_connection, query=query)
+            data = cur.fetchall()
+            # mySQL query to grab artist data for our dropdown
+            query2 = "SELECT artistID, name FROM Artists"
+            cur = db.execute_query(db_connection=db_connection, query=query2)
+            artists = cur.fetchall()
+            # Get concert info for drop down
+            query3 = "SELECT concertID, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID"
+            cur = db.execute_query(db_connection=db_connection, query=query3)
+            concerts = cur.fetchall()
+            # render page passing our query data
+            return render_template("ArtistPerformances.j2", data=data, Artists=artists, Concerts=concerts)
 
 @app.route('/EditPerformance/<int:id>', methods = ['GET', 'POST'])
 def EditArtistPerformance(id):
@@ -427,4 +439,4 @@ def DeleteTicket(id):
 
 # Listener
 if __name__ == "__main__":
-    app.run(port=12700, debug=True)
+    app.run(port=12701, debug=True)
