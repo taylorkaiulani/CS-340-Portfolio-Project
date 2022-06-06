@@ -64,7 +64,7 @@
 				<select name="concertID" id="concertID">
 					{% for concert in concerts %}
 					<option value="{{concert.concertID}}" {% if data[0].concertID == concert.concertID %} selected {% endif %}> 
-                        {{concert.venue}}, {{concert.date}} 
+                        {{concert.date}}, {{concert.venue}} 
                     </option>
 					{% endfor %}
 				</select>
