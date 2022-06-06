@@ -93,6 +93,7 @@ button {
 }
 
 /* BACKGROUND */
+/* Adapted image from https://www.rollingstone.com/pro/features/black-promoters-collective-live-music-1056649/ - Accessed 6/01/22 */
 
 body {
   background: #fefef4;
@@ -106,6 +107,7 @@ body {
 }
 
 /* MENU */
+/*  Adapted menu style from https://www.w3schools.com/css/css_navbar.asp - Accessed 4/22/22 */
 
 ul {
   list-style-type: none;
@@ -135,6 +137,9 @@ li a:active, .active {
   background-color: rgb(59, 88, 221);
   }
 
-ul li:hover, body.artistperformances li.artistperformances, body.concerts li.concerts, body.artists li.artists, body.venues li.venues, body.recordlabels li.recordlabels, body.ticketholders li.ticketholders, body.tickets li.tickets { 
+ul li:hover, body.artistperformances li.artistperformances, 
+body.concerts li.concerts, body.artists li.artists, body.venues li.venues, 
+body.recordlabels li.recordlabels, body.ticketholders li.ticketholders, 
+body.tickets li.tickets { 
   background-color: rgb(59, 88, 221);
 }
