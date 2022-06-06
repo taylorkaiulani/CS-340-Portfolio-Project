@@ -222,21 +222,29 @@ def Artists():
     # insert an artist into the Artists entity
     if request.method == "POST":
         # fire off if user presses the Add Artist button
-        if request.form.get("Add_Artist"):
+        if request.form.get("Add_Artist") and request.form["recordLabelID"] == "":
+            # grab user form inputs
+            artist = request.form["artist"]
+            recordLabelID = request.form["recordLabelID"]
+            query = "INSERT INTO Artists(name) VALUES (%s)"
+            # Update the database with new entry
+            db.execute_query(db_connection=db_connection, query=query, query_params=(artist,))
+            # redirect back to artists page
+            return redirect("/Artists")
+        else:
             # grab user form inputs
             artist = request.form["artist"]
             recordLabelID = request.form["recordLabelID"]
             query = "INSERT INTO Artists(name, recordLabelID) VALUES (%s, %s)"
             # Update the database with new entry
             db.execute_query(db_connection=db_connection, query=query, query_params=(artist, recordLabelID))
-
             # redirect back to artists page
             return redirect("/Artists")
 
     # Grab Artists data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the artists in Artists
-        query = "SELECT artistID AS `ID`, Artists.name as Artist, `Record Labels`.name AS `Record Label` FROM Artists INNER JOIN `Record Labels` ON `Record Labels`.recordLabelID = Artists.recordLabelID ORDER BY artistID"
+        query = "SELECT artistID AS `ID`, Artists.name as Artist, `Record Labels`.name AS `Record Label` FROM Artists LEFT JOIN `Record Labels` ON `Record Labels`.recordLabelID = Artists.recordLabelID ORDER BY artistID"
         cur = db.execute_query(db_connection=db_connection, query=query)
         data = cur.fetchall()
 
@@ -439,4 +447,4 @@ def DeleteTicket(id):
 
 # Listener
 if __name__ == "__main__":
-    app.run(port=12701, debug=True)
+    app.run(port=12702, debug=True)
