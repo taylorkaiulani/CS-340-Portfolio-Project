@@ -139,7 +139,7 @@
                 <label for="concertID"> Concert: </label>
                 <select id="concertID" name="concertID">
                     {% for concert in concerts %}
-                    <option value="{{concert.concertID}}"> {{concert.Venue}}, {{concert.date}} </option>
+                    <option value="{{concert.concertID}}"> {{concert.date}}, {{concert.Venue}} </option>
                     {% endfor %}
                 </select>
 
