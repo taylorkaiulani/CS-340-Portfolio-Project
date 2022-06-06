@@ -106,10 +106,12 @@
                 <input type="text" class="form-control" name="artist" id="artist" placeholder="" required>
 				
 				<label for="recordlabel"> Record Label: </label>
+
 				<select name="recordLabelID" id="recordLabelID">
+					<option value="">None</option>
 					{% for recordlabel in RecordLabels %}
 					<option value="{{recordlabel.recordLabelID}}"> {{recordlabel.name}} </option>
-					{% endfor %}
+					{% endfor %}	
 				</select>
 
       		</fieldset>
