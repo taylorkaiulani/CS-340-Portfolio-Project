@@ -1,3 +1,5 @@
+""" Adapted from CS340 Flask Starter App"""
+
 import MySQLdb
 import os
 from dotenv import load_dotenv, find_dotenv
