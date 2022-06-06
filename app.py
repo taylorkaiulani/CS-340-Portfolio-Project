@@ -1,3 +1,5 @@
+# Adapted from CS340 Flask Starter App
+
 from flask import Flask, render_template, json, redirect, request
 from flask_mysqldb import MySQL
 import database.db_connector as db
