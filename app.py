@@ -30,7 +30,7 @@ def Concerts():
         cur = db.execute_query(db_connection=db_connection, query=query1)
         data = cur.fetchall()
 
-        query2 = ("SELECT venueID, name FROM Venues")
+        query2 = ("SELECT venueID, name FROM Venues ORDER BY name")
         cur = db.execute_query(db_connection=db_connection, query=query2)
         venues = cur.fetchall()
 
@@ -116,17 +116,16 @@ def ArtistPerformances():
             # render page passing our query data
             return render_template("ArtistPerformances.j2", data=data)
         elif not request.args.get("Search_ArtistPerformance"):
-            print('notsearch')
             # mySQL query to grab all the Artist Performances in the Concert_Artists table
             query = "SELECT concert_artistID AS `ID`, Artists.name AS `Artist`, Concerts.date AS Date, Venues.name AS `Venue` FROM Concert_Artists JOIN Artists ON Artists.artistID = Concert_Artists.artistID JOIN Concerts ON Concerts.concertID = Concert_Artists.concertID JOIN Venues ON Venues.venueID = Concerts.venueID ORDER BY concert_artistID"
             cur = db.execute_query(db_connection=db_connection, query=query)
             data = cur.fetchall()
             # mySQL query to grab artist data for our dropdown
-            query2 = "SELECT artistID, name FROM Artists"
+            query2 = "SELECT artistID, name FROM Artists ORDER BY name"
             cur = db.execute_query(db_connection=db_connection, query=query2)
             artists = cur.fetchall()
             # Get concert info for drop down
-            query3 = "SELECT concertID, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID"
+            query3 = "SELECT concertID, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID  ORDER BY date"
             cur = db.execute_query(db_connection=db_connection, query=query3)
             concerts = cur.fetchall()
             # render page passing our query data
@@ -249,7 +248,7 @@ def Artists():
         data = cur.fetchall()
 
         # mySQL query to grab record labels data for our dropdown
-        query2 = "SELECT recordLabelID, name FROM `Record Labels`"
+        query2 = "SELECT recordLabelID, name FROM `Record Labels` ORDER BY name"
         cur = db.execute_query(db_connection=db_connection, query=query2)
         recordlabels = cur.fetchall()
 
@@ -361,7 +360,7 @@ def DeleteTicketholder(id):
 @app.route('/Tickets', methods=['GET', 'POST'])
 def Tickets():
     if request.method == 'GET':
-        query1 = ("SELECT ticketID AS `Ticket ID`, Venues.name AS `Venue`, Concerts.date AS `Date`, "
+        query1 = ("SELECT ticketID AS `Ticket ID`, Concerts.date AS `Date`,Venues.name AS `Venue`, "
             + "CONCAT(Ticketholders.firstName, ' ', Ticketholders.lastName) AS `Ticketholder Name`, "
             + "scanned AS `Scanned?` FROM Tickets "
             + "JOIN Concerts ON Tickets.concertID = Concerts.concertID "
@@ -371,11 +370,11 @@ def Tickets():
         cur = db.execute_query(db_connection=db_connection, query=query1)
         data = cur.fetchall()
 
-        query2 = ("SELECT concertID, date, Venues.name AS `Venue` FROM Concerts JOIN Venues ON Concerts.venueID = Venues.venueID")
+        query2 = ("SELECT concertID, date, Venues.name AS `Venue` FROM Concerts JOIN Venues ON Concerts.venueID = Venues.venueID ORDER BY date")
         cur = db.execute_query(db_connection=db_connection, query=query2)
         concerts = cur.fetchall()
 
-        query3 = ("SELECT ticketholderID, CONCAT(firstName, ' ', lastName) AS `name` FROM Ticketholders")
+        query3 = ("SELECT ticketholderID, CONCAT(firstName, ' ', lastName) AS `name` FROM Ticketholders ORDER BY firstName")
         cur = db.execute_query(db_connection=db_connection, query=query3)
         ticketholders = cur.fetchall()
 
@@ -418,7 +417,7 @@ def EditTicket(id):
         ticketholders = cur.fetchall()
 
         # Get concert info for drop down
-        query3 = "SELECT concertID, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID"
+        query3 = "SELECT concertID, date AS `date`, Venues.name AS `venue` FROM Concerts JOIN Venues ON Venues.venueID = Concerts.venueID ORDER BY DATE"
         cur = db.execute_query(db_connection=db_connection, query=query3)
         concerts = cur.fetchall()
 
