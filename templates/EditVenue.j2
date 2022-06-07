@@ -1,0 +1,73 @@
+<html>
+
+<head>
+	<title>Edit Venue</title>
+	<link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" href="https://use.typekit.net/nvz7lyg.css">
+</head>
+
+<body>
+    <div id="edit" class="edit">
+        <h3> You are updating the following venue: </h3>
+
+        <br/>
+
+        <!-- table to display the row being edited -->
+        <table id="currentInfo">
+            <thead class="edit">
+                <tr>
+                    {% for key in data[0].keys() %}
+                    {% if key != 'venueID' %}
+                    <th scope="col" data-field="{{ key }}" data-filter-control="input" class="edit">{{ key }}</th>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for key in data[0].keys() %}
+                    {% if key != 'venueID' %}
+                    <td> {{data[0][key]}} </td>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+
+        <br/>
+
+		<!-- form to edit data in Venues -->
+		<form id="editVenue" action="/EditVenue/{{data[0].venueID}}" method="POST">
+			<legend><strong>Edit Venue Information</strong></legend>
+			<fieldset>
+
+				<input type="hidden" value="{{data[0].venueID}}" class="form-control" id="venueID" name="venueID" required>
+
+				<label for="venue">Venue:</label>
+                <input type="text" class="form-control" name="venue" id="venue" placeholder="" required>
+
+				<label for="address">Address:</label>
+                <input type="text" class="form-control" name="address" id="address" placeholder="" required>
+
+				<label for="city">City:</label>
+                <input type="text" class="form-control" name="city" id="city" placeholder="" required>
+
+                </select>
+				<label for="state">State:</label>
+                <input type="text" class="form-control" name="state" id="state" maxlength="2" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()" placeholder="" required>
+
+                </select>
+				<label for="capacity">Capacity:</label>
+                <input type="text" class="form-control" name="capacity" id="capacity" pattern="{1,}"  min="0" max="100000" placeholder="" required>
+
+			</fieldset>
+			<br />
+            <button type="submit"> Submit </button>
+        </form>
+
+        <a href="/Venues" class="back">Back to Venues</a>
+
+	</div><!--edit-->
+</body>
+
+</html>
