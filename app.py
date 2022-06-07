@@ -26,7 +26,7 @@ def Main():
 @app.route("/Concerts", methods=['GET', 'POST'])
 def Concerts():
     if request.method == 'GET':
-        query1 = ("SELECT concertID AS `Concert ID`, date AS `Date`, Venues.name AS `Venue` "
+        query1 = ("SELECT concertID AS `ID`, date AS `Date`, Venues.name AS `Venue` "
             + "FROM Concerts JOIN Venues ON Concerts.venueID = Venues.venueID "
             + "ORDER BY concertID ASC")
         cur = db.execute_query(db_connection=db_connection, query=query1)
@@ -306,7 +306,7 @@ def delete_recordlabels(id):
 @app.route('/Ticketholders', methods=['GET', 'POST'])
 def Ticketholders():
     if request.method == 'GET':
-        query = ("SELECT ticketholderID AS `Ticketholder ID`, firstName AS `First Name`, "
+        query = ("SELECT ticketholderID AS `ID`, firstName AS `First Name`, "
         + "lastName AS `Last Name`, email AS `Email`, phone AS `Phone Number` "
         + "FROM Ticketholders ORDER BY ticketholderID ASC")
         cur = db.execute_query(db_connection=db_connection, query=query)
@@ -362,7 +362,7 @@ def DeleteTicketholder(id):
 @app.route('/Tickets', methods=['GET', 'POST'])
 def Tickets():
     if request.method == 'GET':
-        query1 = ("SELECT ticketID AS `Ticket ID`, Concerts.date AS `Date`,Venues.name AS `Venue`, "
+        query1 = ("SELECT ticketID AS `ID`, Concerts.date AS `Date`,Venues.name AS `Venue`, "
             + "CONCAT(Ticketholders.firstName, ' ', Ticketholders.lastName) AS `Ticketholder Name`, "
             + "scanned AS `Scanned?` FROM Tickets "
             + "JOIN Concerts ON Tickets.concertID = Concerts.concertID "
@@ -448,4 +448,4 @@ def DeleteTicket(id):
 
 # Listener
 if __name__ == "__main__":
-    app.run(port=12702, debug=True)
+    app.run(port=2896, debug=True)

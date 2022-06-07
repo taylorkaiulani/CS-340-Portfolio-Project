@@ -59,7 +59,6 @@
 <body onload="browseRecordLabel()" class="recordlabels">
 {% include "Menu.html" %}
 	<div id="browse">
-		<p><a href="#" onClick="newRecordLabel()" class="add-link">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py -->
             {% if data %}
@@ -93,6 +92,7 @@
                         {% endfor %}
                 {% endif %}
         </table>
+		<p><a href="#" onClick="newRecordLabel()" class="add-link"><i class="fa-solid fa-square-plus fa-2xl"></i></a> </p>
 	<p>&nbsp;</p>
 	</div>	<!-- browse -->
 

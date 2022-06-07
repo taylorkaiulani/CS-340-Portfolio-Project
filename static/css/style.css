@@ -22,12 +22,21 @@ a.add-link, a.add-link:visited, a.back, a.back:visited, i {
   color: rgb(59, 88, 221);
 }
 
+a.add-link{
+  size: 5em;
+}
+
 div {
   margin-left: 15%;
 }
 
 div.insert {
   margin-left: 0%;
+}
+
+div.edit{
+  margin-left: auto;
+  margin-right: auto;
 }
 
 form {
@@ -39,6 +48,7 @@ table {
   align-items: left;
   margin-right: auto;
   margin-bottom: 3%;
+  margin-top: 3%;
 
   border-collapse: collapse;
   border: solid white 4px;
@@ -48,8 +58,16 @@ table {
   color: black;
 }
 
+table.edit{
+  margin-top: 0%;
+}
+
 tbody, thead {
   text-align: left;
+}
+
+th.edit, td.edit{
+  padding: 5px 15px;
 }
 
 fieldset {
@@ -79,7 +97,7 @@ label {
 
 button {
   padding: 0.5%;
-  margin-top: 0.25%;
+  margin-top: 0.5%;
   margin-bottom: 0.25%;
   
   font-family: termina, sans-serif;

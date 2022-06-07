@@ -7,18 +7,18 @@
 </head>
 
 <body>
-    <div id="edit">
+    <div id="edit" class="edit">
         <h3> You are updating the following ticketholder: </h3>
 
         <br/>
 
         <!-- table to display the row being edited -->
         <table id="currentInfo">
-            <thead>
+            <thead class="edit">
                 <tr>
                     {% for key in data[0].keys() %}
                     {% if key != 'ticketholderID' %}
-                    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                    <th scope="col" data-field="{{ key }}" data-filter-control="input" class="edit">{{ key }}</th>
                     {% endif %}
                     {% endfor %}
                 </tr>
@@ -27,7 +27,7 @@
                 <tr>
                     {% for key in data[0].keys() %}
                     {% if key != 'ticketholderID' %}
-                    <td> {{data[0][key]}} </td>
+                    <td class="edit"> {{data[0][key]}} </td>
                     {% endif %}
                     {% endfor %}
                 </tr>

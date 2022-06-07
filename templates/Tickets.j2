@@ -59,7 +59,6 @@
 <body onload="browseTickets()" class="tickets">
 	{% include "Menu.html" %}
 	<div id="browse">
-		<p><a href="#" onClick="newTicket()" class="add-link">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py -->
             {% if data %}
@@ -91,13 +90,13 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-							<td><a href="EditTicket/{{item['Ticket ID']}}"><i class="fa-solid fa-square-pen"></i></a></td>
-                            <td><a href="DeleteTicket/{{item['Ticket ID']}}"><i class="fa-solid fa-trash-can"></i></a></td>
+							<td><a href="EditTicket/{{item['ID']}}"><i class="fa-solid fa-square-pen"></i></a></td>
+                            <td><a href="DeleteTicket/{{item['ID']}}"><i class="fa-solid fa-trash-can"></i></a></td>
 					    </tr>
                         {% endfor %}
                 {% endif %}
         </table>
-
+		<p><a href="#" onClick="newTicket()" class="add-link"><i class="fa-solid fa-square-plus fa-2xl"></i></a> </p>
         <br/>
 
         <table border="1" cellpadding="5">
