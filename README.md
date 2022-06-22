@@ -45,32 +45,40 @@ The following assumptions are made in this draft for simplicity:
 ### UI Screen Captures
 #### Homepage
 ![Homepage](https://user-images.githubusercontent.com/86279867/174935587-7dd7579a-94bc-44fc-a6a7-0e66b62a16b6.png)
+
 Index page for the rest of the site; nav functionality only.
 
 #### Concerts Page
 ![Concerts](https://user-images.githubusercontent.com/86279867/174935640-c8535549-2922-466f-8582-4915af898b1a.png)
+
 Represents the Concerts entity. Functionality: Create, Read, Update, Delete
 
 #### Artists Page
 ![Artists](https://user-images.githubusercontent.com/86279867/174935669-6a9f1498-0931-4d20-b94c-7335233cc59d.png)
+
 Represents the Artists entity. Functionality: Create, Read, Delete
 
 #### Artist Performances Page
 ![Artist Performances](https://user-images.githubusercontent.com/86279867/174935735-986c1b3d-d3c4-467e-a7bd-e13f15d02190.png)
+
 Represents the intermediary table between Concerts and Artists. Functionality: Create, Read, Update, Delete
 
 #### Venues Page
 ![Venues](https://user-images.githubusercontent.com/86279867/174935769-63b9f272-60a9-4fec-a63c-775763258ea7.png)
+
 Represents the Venues entity. Functionality: Create, Read, Delete
 
 #### Record Labels Page
 ![Record Labels](https://user-images.githubusercontent.com/86279867/174935800-15c0905d-7b1d-4899-a60c-d29820fc314b.png)
+
 Represents the Record Labels entity. Functionality: Create, Read, Delete
 
 #### Ticketholders Page
 ![Ticketholders](https://user-images.githubusercontent.com/86279867/174935839-c96daad9-d2db-41ca-82c5-7a012a42f51a.png)
+
 Represents the Ticketholders entity. Functionality: Create, Read, Update, Delete
 
 #### Tickets Page
 ![Tickets](https://user-images.githubusercontent.com/86279867/174935862-4f2d7f8d-6d2b-4b20-8463-485983ed9c05.png)
+
 Represents the intermediary table between Concerts and Ticketholders. Functionality: Create, Read, Update, Delete
